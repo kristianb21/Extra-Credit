@@ -1,0 +1,100 @@
+// ================================================================
+// MIXINS - ELEMENTS - Such as buttons, lists, boxes, etc 
+// ================================================================
+
+
+//----------LISTS------------//
+
+.mix-list-style-none() {
+  list-style-type: none;
+  list-style: none;
+  list-style-image: none;
+  background-image: none;
+}
+
+//------BORDER RADIUS-------//
+
+.mix-border-radius(@radius: 0px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius:    @radius;
+  border-radius:         @radius;
+
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+.mix-border-radiuses(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+  -webkit-border-top-right-radius:    @topright;
+  -webkit-border-bottom-right-radius: @bottomright;
+  -webkit-border-bottom-left-radius:  @bottomleft;
+  -webkit-border-top-left-radius:     @topleft;
+
+  -moz-border-radius-topright:        @topright;
+  -moz-border-radius-bottomright:     @bottomright;
+  -moz-border-radius-bottomleft:      @bottomleft;
+  -moz-border-radius-topleft:         @topleft;
+
+  border-top-right-radius:            @topright;
+  border-bottom-right-radius:         @bottomright;
+  border-bottom-left-radius:          @bottomleft;
+  border-top-left-radius:             @topleft;
+
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+
+//---------CIRCLES---------//
+
+.mix-circle(@radius: 24px, @bg-color: black, @color: inherit) {
+	text-align: center;
+	display: block;
+	height: @radius;
+	width: @radius;
+  .mix-border-radius(@radius);
+	background-color: @bg-color;
+	color: @color;
+}
+.mix-responsive-circle(@size, @radius) {
+  display: inline-block;
+  width: @size;
+  height: 0;
+  padding-bottom: @size;
+  .mix-border-radius(@radius);
+  overflow: hidden;
+}
+.mix-circle-img-insetshadow(@radius, @shadow-color: rgba(97, 97, 97, .45)) {
+  .mix-shadow-inset-overlay(@shadow-color);
+  .mix-circle(@radius, transparent, inherit);
+  &:before {
+    .mix-border-radius(@radius);
+  }
+  img { 
+    .mix-circle(@radius, transparent, inherit);
+  }
+}
+
+
+//------BUTTONS------//
+
+.mix-btn(@height, @bg-color: @color-black-50, @font-color: white, @font-size, @text-size, @border-radius: 0, @brd-color) {
+	background-color: @bg-color;
+	border: 1px solid darken(@bg-color, 12%);
+	display: inline-block;
+	.mix-border-radius(@border-radius);
+	&:hover {
+		background-color: darken(@bg-olor, 5%);
+		border-color: darken(@bg-color, 25%);
+	}
+	a {
+		display: block;
+		padding: @height @height*@btn-proportion;
+		color: @font-color;
+		font-family: @font-family;
+		font-size: @font-size;
+		line-height: 1.3em;
+		font-weight: bold;
+		&:hover {color:@font-color;}
+		&:visited {color:@font-color;}
+	}
+}

@@ -1,0 +1,184 @@
+/* =============================================================================
+GLOBAL - ELEMENTS - Standard elements reused in site
+=========================================================================== */
+
+
+
+.ol-small {
+  li {
+    margin-bottom: @base-smallest;
+  }
+}
+
+/*---------TYPE---------*/
+
+h2 {
+  &.first {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+// SMALL Descriptions (Used in Headlines on Home)
+.mini {
+  display: block;
+  font-weight: normal;
+  font-size: @type-small;
+  color: @color-orange-85;
+  text-transform: uppercase;
+}
+.file-type {
+  &:extend(.t-small);
+  color: @color-black-50;
+  // font-style: italic;
+  padding-left: @base-small;
+  font-weight: 300;
+}
+
+
+//-------BUTTONS (special)--------//
+
+.btn-clear {
+  .mix-btn-framework(@btn-height, transparent, @btn-txt-size, white, @btn-border-radius, 1px, @color-blue-50);
+  &:hover {
+    background-color: darken(@color-blue-dark, 5%);
+    color: lighten(@color-blue, 10%);
+    border-color: lighten(@color-blue, 20%);
+  }
+}
+
+//----------STACKING----------//
+
+h1+p, p+h2 { margin-top: @base-element-margin; }
+
+/*---------BOXES---------*/
+
+.box-highlight {
+  border: 1px solid @color-black-25;
+  padding: @base-element-margin;
+  margin-bottom: @base-element-margin;
+  +.box-nav {
+    margin-top: -@base-element-margin;
+    border-top: none;
+  }
+  h2 {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+.box-nav {
+  border: 1px solid @color-black-25;
+  margin-bottom: @base-element-margin;
+  background-color: @color-black-2;
+}
+.box-nav-title {
+  background-color: @color-blue;
+  color: white;
+  padding: @base-smaller @base-element-margin;
+  text-transform: uppercase;
+  letter-spacing: .01em;
+}
+
+
+
+// .list-aside-items {
+//   border-top: 3px solid @color-yellow;
+//   h2, h3 {
+//     border: none;
+//     margin-top: 0;
+//     padding-top: 0;
+//   }
+//   li {
+//     padding-top: @base;
+//     padding-bottom: @base;
+//     border-top: 1px solid @color-cream-dark;
+//     &:first-of-type {
+//       border-top: none;
+//     }
+//   }
+// }
+
+
+
+//---------PRINT---------//
+#print-btn {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  height: 100px;
+  color: @color-black-50;
+  text-transform: uppercase;
+  background-color: @color-black-5;
+  border: 1px solid @color-black-25;
+  border-left: none;
+  padding: 2px 4px;
+  z-index: 9997;
+  cursor: pointer;
+  &:before {
+    .mix-icon('print', inherit);
+    display: block;
+    margin-top: 8px;
+
+  }
+  &:hover {
+    background-color: @color-cream-dark;
+    color: @color-orange-dark;
+  }
+  @media @break-primary {
+    display: none;
+  }
+}
+.print-btn-txt {
+  .mix-transform(rotate, 90deg);
+  line-height: 15px;
+  position: absolute;
+  top: 22px;
+  left: -10px;
+}
+.print-btn-inner {
+  position: relative;
+}
+
+
+//---------TOOLTIPS---------//
+
+// Toggle
+.tooltip-wrap {
+  // Get rid of margin on icons
+  &:before {
+    margin-right: 0;
+  }
+  color: @color-orange;
+  &.active, &:hover  {
+    color: @color-orange-dark;
+  }
+}
+
+.tooltip {
+  color: @color-orange-dark;
+  top: 50%;
+  line-height: 1.45em;
+  font-size: @type-small;
+  font-style: italic;
+}
+
+
+
+
+#return-link {
+  padding: 10px;
+  background-color: @color-blue-50;
+  .mix-inset-shadow(0px, 0px, 3px, 0px, @color-blue-dark); 
+  .mix-border-radius(4px);
+  margin-bottom: @base-element-margin;
+  margin-top: -50px;
+  span {
+    .t-small;
+    font-style: italic;
+    margin-left: @base-small;
+    vertical-align: -1px;
+  }
+}
+

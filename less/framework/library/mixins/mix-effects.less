@@ -1,0 +1,177 @@
+// ================================================================
+// MIXINS - ELEMENTS - Such as buttons, lists, boxes, etc 
+// ================================================================
+
+//------TRANSITIONS------//
+
+.mix-trans-slow(@css-property) {
+  -webkit-transition: @css-property 1s; /* For Safari 3.1 to 6.0 */
+  -moz-transition: @css-property 1s;
+  -ms-transition: @css-property 1s;
+  -o-transition: @css-property 1s;
+  transition: @css-property 1s;
+}
+.mix-trans(@css-property, @time: .5s) {
+  -webkit-transition: @css-property @time; /* For Safari 3.1 to 6.0 */
+  -moz-transition: @css-property @time;
+  -ms-transition: @css-property @time;
+  -o-transition: @css-property @time;
+  transition: @css-property @time;
+}
+.mix-trans-fast(@css-property) {
+  -webkit-transition: @css-property .2s; /* For Safari 3.1 to 6.0 */
+  -moz-transition: @css-property .2s;
+  -ms-transition: @css-property .2s;
+  -o-transition: @css-property .2s;
+  transition: @css-property .2s;
+}
+// NOTE: Requires value as escaped string ie. ".mix-trans-multi(~"color .5s, opacity .1s");
+.mix-trans-multi(@escaped-string-value) {
+  -webkit-transition: @escaped-string-value;
+  -moz-transition: @escaped-string-value;
+  -ms-transition: @escaped-string-value;
+  -o-transition: @escaped-string-value;
+  transition: @escaped-string-value;
+}
+
+
+//------TRANSFORMS------//
+
+.mix-transform(@prop, @unit) {
+	@full-prop: ~"@{prop}(@{unit})";
+	-ms-transform: @full-prop;
+	-webkit-transform: @full-prop;
+	transform: @full-prop;
+}
+.mix-transform-multi(@full-prop) {
+  -ms-transform: @full-prop;
+  -webkit-transform: @full-prop;
+  transform: @full-prop;
+}
+
+//------SHADOWS------//
+
+.mix-shadow(@hor: 0px, @ver: 0px, @blur: 4px, @spread: 0px, @shadow-color: rgba(0,0,0,0.35)) {
+  -webkit-box-shadow: @hor @ver @blur @spread @shadow-color;
+  -moz-box-shadow: @hor @ver @blur @spread @shadow-color;
+  box-shadow: @hor @ver @blur @spread @shadow-color;
+}
+.mix-shadow-light(@hor: 0px, @ver: 0px, @blur: 3px) {
+  -webkit-box-shadow: @hor @ver @blur 0px rgba(0,0,0,0.25);
+  -moz-box-shadow: @hor @ver @blur 0px rgba(0,0,0,0.25);
+  box-shadow: @hor @ver @blur 0px rgba(0,0,0,0.25);
+}
+
+// Inset Shadow 
+.mix-inset-shadow(@hor: 0px, @ver: 0px, @blur: 3px, @spread: 0px, @shadow-color: rgba(0,0,0,0.35)) {
+  -webkit-box-shadow: inset @hor @ver @blur @spread @shadow-color;
+  -moz-box-shadow: inset @hor @ver @blur @spread @shadow-color;
+  box-shadow: inset @hor @ver @blur @spread @shadow-color;
+}
+
+// INSET SHADOW (clickable) 
+.mix-shadow-inset-overlay(@color: rgba(97, 97, 97, .45)) {
+	position: relative;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	pointer-events:none;	
+	&:before {
+    // This is used when the contents of the element with the shadow applied need to be clickable still (ie. Links).
+    // There are ways to make it clickable on the element itself but none work across all browsers. This seems to the most cross-browser and backwards compatable. -JS
+		-webkit-box-shadow: inset 0px 0px 1px 1px @color;
+		box-shadow: inset 0px 0px 1px 1px @color;
+		-moz-box-shadow: inset 0px 0px 1px 1px @color;
+		position: absolute;
+		z-index: 102;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		content: "";
+		pointer-events:none;	// So you can click through
+	}
+	img {
+		display: block;
+		width: 100% !important;		// For CMS images with inline styling
+		height: auto !important;
+	}
+	a { pointer-events: all; }
+}
+
+// REMOVE SHADOW
+.mix-shadow-none() {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+//------BUTTONS------//
+
+.mix-filter(@filter: grayscale(100%)) {
+  -webkit-filter: @filter;
+  -moz-filter: @filter;
+  -ms-filter: @filter;
+  -o-filter: @filter;
+  filter: @filter;
+}
+
+//----------TEXT SELECTION--------//
+
+.mix-selection(@color, @bg-color) {
+	::selection {color: @color;background: @bg-color;}
+	::-moz-selection {color: @color;background: @bg-color;}
+}
+
+//----------GRADIENTS--------//
+
+//---Image with Gradient-----//
+
+// See Mix-Images.Less
+
+//---Gradient Horzizontal-----//
+.mix-gradient-h(@start-color, @end-color) {
+  background-color: @end-color;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, right top, from(@start-color), to(@end-color)); /* Konqueror */
+  background-image: -moz-linear-gradient(left, @start-color, @end-color); /* FF 3.6+ */
+  background-image: -ms-linear-gradient(left, @start-color, @end-color); /* IE10 */
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, @start-color), color-stop(100%, @end-color)); /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(left, @start-color, @end-color); /* Safari 5.1+, Chrome 10+ */
+  background-image: -o-linear-gradient(left, @start-color, @end-color); /* Opera 11.10 */
+  background-image: -ms-linear-gradient(left, @start-color 0%, @end-color 100%);  /* IE10+ */
+  background-image: linear-gradient(left, @start-color, @end-color); /* the standard */
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@start-color,@end-color)); /* IE6 & IE7 */
+  -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=1)",@start-color,@end-color); /* IE8+ */
+}
+//---Gradient Vertical-----//
+.mix-gradient-v(@start-color, @end-color) {
+  background-color: @end-color;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(@start-color), to(@end-color)); /* Konqueror */
+  background-image: -moz-linear-gradient(@start-color, @end-color); /* FF 3.6+ */
+  background-image: -ms-linear-gradient(@start-color, @end-color); /* IE10 */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, @start-color), color-stop(100%, @end-color)); /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(@start-color, @end-color); /* Safari 5.1+, Chrome 10+ */
+  background-image: -o-linear-gradient(@start-color, @end-color); /* Opera 11.10 */
+  background-image: -ms-linear-gradient(top, @start-color 0%, @end-color 100%);  /* IE10+ */
+  background-image: linear-gradient(@start-color, @end-color); /* the standard */
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@start-color,@end-color)); /* IE6 & IE7 */
+  -ms-filter: %("progid:DXImageTransform.Microsoft.gradient(startColorstr='%d', endColorstr='%d', GradientType=0)",@start-color,@end-color); /* IE8+ */
+}
+
+//----------KEYFRAMES---------//
+
+.animation(@arguments) {
+  -webkit-animation: @arguments;
+  -moz-animation: @arguments;
+  -o-animation: @arguments;
+  animation: @arguments;
+}
+
+// EXAMPLE KEYFRAME SIMPLIFYING
+// @-webkit-keyframes @name { .create-a-mixin(); }
+// @-moz-keyframes @name { .create-a-mixin(); }
+// @-o-keyframes @name { .create-a-mixin(); }
+// @keyframes @name { .create-a-mixin(); }

@@ -1,0 +1,87 @@
+/* =======================================================================
+PARTIAL - TIPS TOOLS
+========================================================================== */
+
+//---BOXES----//
+
+.box-tips, .box-tools {
+  position: relative;
+} 
+.box-tips {
+  &:before {
+    .mix-icon("question", @color-blue-50, 100px);
+    position: absolute;
+    top: @base-large;
+    right: @base-small;
+  }
+}
+.box-tools {
+  &:before {
+    .mix-icon("tools", @color-blue-50, 100px);
+    position: absolute;
+    top: @base-large + 5px;
+    right: @base;
+  }
+}
+.box-tools-tips-inner {
+  z-index: 1;
+  position: relative;
+}
+//---TYPE----//
+
+.h3-tips-tools {
+  color: @color-black-85;
+  border-top: 1px solid @color-black-25;
+  padding-top: @base-element-margin;
+}
+.tool-source {
+  margin-bottom: @base-smaller;
+  font-style: italic;
+  &:extend(.t-small);
+}
+
+//---LISTS----//
+
+.list-tips-tools {
+  p {
+    &:last-of-type {
+      margin-bottom: @base-small;
+    }
+  }
+}
+
+//----------------------------------------------//
+//------------------IN CONTENT------------------//
+//----------------------------------------------//
+
+.content-tool-tip {
+  margin-top: @base;
+  padding-top: @base;
+  border-top: 1px solid @color-cream-dark;
+  color: @color-orange-dark;
+  position: relative;
+  z-index: 1; // Set stack
+  &:before {
+    z-index: -1;
+    position: absolute;
+  }
+  &.tool {
+    &:before {
+      .mix-icon("tools", darken(@color-cream, 10%), 70px);
+      top: 50px;
+      right: 0;
+    }
+  }
+  // &.tip {
+  //   &:before {
+  //     .mix-icon("dot-question", darken(@color-cream, 10%), 60px);
+  //     position: absolute;
+  //     top: 36px;
+  //     right: 0;
+  //     z-index: -1;
+  //   }
+  // }
+  .file-type {
+    color: @color-orange;
+  }
+}

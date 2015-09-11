@@ -1,0 +1,71 @@
+/* =======================================================================
+PARTIAL - CASESTUDY
+========================================================================== */
+
+.section-casestudy-page {
+  margin-top: 45px;
+  border-bottom: 4px solid @color-red;
+  &.casestudy { border-top: none; }
+}
+.casestudy {
+  min-height: 440px;
+  border-top: 4px solid @color-red;
+  background-repeat: no-repeat;
+  background-position: center center;
+  @media @break-primary {
+    background-position: center right -200px;
+  }
+  // BACKGROUND IMAGES
+  &.mary {
+    .mix-bg-img-url("mary.jpg", "casestudy");
+    background-color: #e1ca91;
+  }
+  &.scott {
+    .mix-bg-img-url("scott.jpg", "casestudy");
+    background-color: #e1ca91;
+  }
+  &.glenda {
+    .mix-bg-img-url("glenda.jpg", "casestudy");
+    background-color: #e1ca91;
+  }
+
+  // GENERAL OVERRIDES
+  h2 {
+    border-top: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  p {
+    margin-bottom: 0;
+    color: @color-blue;
+  }
+}
+
+.casestudy-inner {
+  background-color: white;
+  .mix-opacity(.9);
+  padding: @base;
+  margin: @base-large 0 @base-large 0;
+  width: 40%;
+  @media @break-primary {
+    width: 75%;
+  }
+  @media @mobile {
+    width: 100%;
+  }
+}
+.casestudy-intro{
+  padding-bottom: @base;
+  margin-bottom: @base;
+  border-bottom: 2px solid @color-yellow;
+  .section-casestudy-page && {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  h1 {
+    border-bottom: 3px solid @color-yellow;
+    padding-bottom: @base;
+  }
+}

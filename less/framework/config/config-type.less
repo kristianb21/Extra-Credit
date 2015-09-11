@@ -1,0 +1,153 @@
+/* =============================================================================
+FRAMEWORK - TYPE - Typographic mixin, extensions and settings
+========================================================================== */
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+// Want to create a method (mixin, formula, etc) to type in the line hiehgt in
+// pixels based on the font size vs pixel line height to convert that proportion to ems.
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+// 01.  Family
+// 02.  Size
+// 03.  Weight
+// 04.  Alignment
+// 05.  Case (Upper, Lower, Title)
+// 06.  Text Shadow
+
+//-----------------------------------------------------------------------//
+//---------------------------------SETTINGS------------------------------//
+//-----------------------------------------------------------------------//
+
+// GOOGLE FONT IMPORTS (For Drupazl Remove "http")
+.mix-google-font-import('//fonts.googleapis.com/css?family=Lato:400,300,700,400italic,700italic,900');
+
+// DEFINE FAMILIES
+@font-family: 'lato', sans-serif;
+@font-family-serif: Georgia, serif;
+
+// BASE TYPE SIZE (Used for Presets)
+@type-base: 15px;
+@type-base-lh: 25px;
+@type-base-family: @font-family;
+@type-base-color: @color-black-80;
+@letter-spacing: .02em; // For on-the-go use to fix letterspacing, Used in buttons
+
+// PARAGRAPHS
+@par-color: @color-black-75;
+@par-size: @type-base;
+@par-lh: @type-base-lh;
+
+// GENERAL TYPE SIZES
+@type-larger: 30px;
+@type-larger-lh: 32px;
+@type-large: 22px;
+@type-large-lh: 32px;
+@type-med: 17px;
+@type-med-lh: 29px;
+@type-reg: 15px;
+@type-reg-lh: 25px;
+@type-small: 13px;
+@type-small-lh: 17px;
+@type-smaller: 10px;
+@type-smaller-lh: 14px;
+
+//-----------------------------------------------------------------------//
+//----------------------------------CLASSES------------------------------//
+//-----------------------------------------------------------------------//
+
+//---------------------------------------//
+//--------------01. GENERAL--------------//
+//---------------------------------------//
+
+.sans-serif { font-family: @font-family; }
+.serif { font-family: @font-family-serif; }
+
+//---------------------------------------//
+//--------------02. SIZES----------------//
+//---------------------------------------//
+
+.t-larger { .mix-text-size-extension(@type-larger, @type-larger-lh); }
+.t-large { .mix-text-size-extension(@type-large, @type-large-lh); }
+.t-med { .mix-text-size-extension(@type-med, @type-med-lh); }
+.t-reg { .mix-text-size-extension(@type-reg, @type-reg-lh); }
+.t-small { .mix-text-size-extension(@type-small, @type-small-lh); }
+.t-smaller { .mix-text-size-extension(@type-smaller, @type-smaller-lh); }
+
+// Match Paragraph
+.t-par { .mix-text-size-extension(@par-size, @par-lh); }
+
+.t-dense { line-height: 1.35em; }
+
+//---------------------------------------//
+//-------------03. WEIGHTS---------------//
+//---------------------------------------//
+
+.t-light { font-weight: 300; }
+.t-normal { font-weight: normal; }
+.t-semibold { font-weight: 600; }
+.t-italic { font-style: italic; } // When not using <em>
+.t-bold { font-weight: bold; } // When not using <strong>
+
+//---------------------------------------//
+//-------------04. ALIGNMENT-------------//
+//---------------------------------------//
+
+.t-center { text-align: center; }
+.t-left { text-align: left; }
+.t-right { text-align: right; }
+
+//---------------------------------------//
+//--------------05. CASE-----------------//
+//---------------------------------------//
+
+.t-upper { text-transform: uppercase; }
+.t-lower { text-transform: lowercase; }
+.t-title { text-transform: capitalize; }
+
+//---------------------------------------//
+//-------------06. SHADOWS---------------//
+//---------------------------------------//
+
+.t-shadow { text-shadow: 0 1px 2px @color-opac-30; }
+
+//---------------------------------------//
+//------------MIXINS to USE--------------//
+//---------------------------------------//
+
+.mix-text-larger(@color: inherit, @weight: inherit) {
+  .mix-text-size(@type-larger, @type-larger-lh);
+  color: @color;
+  font-weight: @weight;
+}
+.mix-text-large(@color: inherit, @weight: inherit) {
+  .mix-text-size(@type-large, @type-large-lh);
+  color: @color;
+  font-weight: @weight;
+}
+.mix-text-med(@color: inherit, @weight: inherit) {
+  .mix-text-size(@type-med, @type-med-lh);
+  color: @color;
+  font-weight: @weight;
+}
+.mix-text-small(@color: inherit, @weight: inherit) {
+  .mix-text-size(@type-small, @type-small-lh);
+  color: @color;
+  font-weight: @weight;
+}
+.mix-text-smaller(@color: inherit, @weight: inherit) {
+  .mix-text-size(@type-smaller, @type-smaller-lh);
+  color: @color;
+  font-weight: @weight;
+}
+.mix-text-p(@color: inherit, @weight: inherit) {
+  .mix-text-size(@par-size, @par-lh);
+  color: @color;
+  font-weight: @weight;
+  margin-bottom: @par-lh;
+}

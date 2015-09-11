@@ -1,0 +1,294 @@
+/*=============================================================================
+GLOBAL - ELEMENTS - Common elements (Borders, Boxes, Etc)
+===========================================================================*/
+
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+// 01.  Borders
+// 02.  Image Overlay
+// 03.  Links
+// 04.  Lists
+// 05.  Tables
+// 06.  Callouts
+// 07.  Tooltips
+
+//-----------------------------------------------------------------------//
+//--------------------------------CLASSES--------------------------------//
+//-----------------------------------------------------------------------//
+
+//---------------------------------------//
+//------------01. BORDERS----------------//
+//---------------------------------------//
+
+.mix-border-class(@class-name, @border-width) {
+  .b-tp-@{class-name} {
+    border-top-width: @border-width;
+    border-top-style: solid;
+    border-top-color: @color-black-15;
+    &.dotted { &:extend(.dotted); }
+    &.dashed { &:extend(.dashed); }
+  }
+  .b-bt-@{class-name} {
+    border-bottom-width: @border-width;
+    border-bottom-style: solid;
+    border-bottom-color: @color-black-15;
+    &.dotted { &:extend(.dotted); }
+    &.dashed { &:extend(.dashed); }
+  }
+  .b-lt-@{class-name} {
+    border-left-width: @border-width;
+    border-left-style: solid;
+    border-left-color: @color-black-15;
+    &.dotted { &:extend(.dotted); }
+    &.dashed { &:extend(.dashed); }
+  }
+  .b-rt-@{class-name} {
+    border-right-width: @border-width;
+    border-right-style: solid;
+    border-right-color: @color-black-15;
+    &.dotted { &:extend(.dotted); }
+    &.dashed { &:extend(.dashed); }
+  }
+  .b-@{class-name} {
+    border-width: @border-width;
+    border-style: solid;
+    border-color: @color-black-15;
+    &.dotted { &:extend(.dotted); }
+    &.dashed { &:extend(.dashed); }
+  }
+}
+
+.no-b { border: none; }
+.no-b-top { border-top: none; }
+.no-b-btm { border-top: none; }
+.no-b-lt { border-top: none; }
+.no-b-rt { border-top: none; }
+
+// BORDER STYLES
+.dotted { border-style: dotted; }
+.dashed { border-style: dashed; }
+
+
+//---------------------------------------//
+//------------02. IMAGE OVERLAY----------//
+//---------------------------------------//
+
+.img-overlay {
+  .mix-overlay-pat("pat-dot-light.png", "framework", @image-overlay-width, @image-overlay-height);
+  >div {
+    position: relative;
+    z-index: 1; // Bump above for content inside image overlays
+  }
+}
+
+//---------------------------------------//
+//--------------03. LINKS----------------//
+//---------------------------------------//
+
+// Use as classes or extends
+
+.links {
+  a {
+    &:visited { color: @a-color-visited; }
+    &:hover { color: @a-color-hover; }
+  }
+}
+.links-hover {
+  a {
+    &:hover { color: @a-color-hover; }
+  }
+}
+
+//---------------------------------------//
+//--------------04. LISTS----------------//
+//---------------------------------------//
+
+
+//-------BULLET w. IMAGES----------//
+
+.list-bullet {
+  list-style: none outside;
+  li {
+  	.mix-bg-img(@bullet-image, 'framework');
+	  background-repeat: no-repeat;
+	  background-position: left ((@type-base-lh - @type-base) - @bullet-vertical-align);
+	  padding-left: @bullet-size + @bullet-horizontal-space;
+    margin-top: @list-margin;
+    margin-bottom: @list-margin;
+	}
+	ul {
+		margin-left: @list-indent;
+		li{
+			padding-left: 0;
+			background-image: none;
+			list-style-type: disc;
+		}
+    ul li { list-style-type: circle; }
+	}
+
+  // Bullet Large
+  &.bullet-large {
+    li {
+      .mix-bg-img-url(@bullet-large-image, 'framework');
+      margin-top: @list-large-margin;
+      margin-bottom: @list-large-margin;
+      ul li {
+        padding-left: 0;
+        background-image: none;
+        list-style-type: disc;
+      }
+    }
+  }
+}
+
+//-------BULLETS DEFUALT----------//
+
+.list-bullet-plain {
+  margin-left: @list-indent;
+  li {
+    list-style: disc outside;
+    margin-bottom: @list-margin;
+    margin-top: @list-margin;
+    li { list-style-type: circle; }
+  }
+  ul { margin-left: @list-indent; }
+}
+
+//-------REMOVE LIST STYLING----------//
+
+.list-plain {
+  list-style: none outside;
+  background-image: none;
+  li {
+    background-image: none;
+    padding: 0;
+    margin-top: @base-smallest;
+    margin-bottom: @base-smallest;
+  }
+  ul {
+    margin-left: 0;
+    list-style: none outside;
+    li{
+      padding-left: 0;
+      background-image: none;
+      list-style-type: none;
+    }
+    ul li { list-style-type: none; }
+  }
+}
+
+//---------------------------------------//
+//---------------05. TABLE---------------//
+//---------------------------------------//
+
+//---TABLE NO STYLING----//
+
+// NOTE: Based on general.less (table)
+ 
+.table-plain {
+  border: none;
+  border-collapse: collapse;
+  background-color: transparent;
+  text-align: left;
+  font-size: @type-base;
+  font-weight: normal;
+  th {
+    background-color: transparent;
+    padding: @table-pad;
+    border: none;
+  }
+  tr { border: none; }
+  td {
+    padding: @table-pad;
+    border: none;
+  }
+  tfoot {
+    background-color: transparent;
+  }
+  tbody {
+    tr {
+      &:nth-child(odd) { background-color: transparent; }  // Remove Striping
+      &:last-of-type { border-bottom: none; }
+    }
+  }
+}
+
+//---------------------------------------//
+//-------------06. CALLOUTS--------------//
+//---------------------------------------//
+
+.callout {
+  width: @callout-width;
+	color: @callout-color;
+	border: @callout-border;
+	background-color: @color-black-5;
+	padding:@callout-padding;
+  margin-bottom: @base;
+  display: block;
+}
+
+//---------------------------------------//
+//-------------07. TOOLTIP---------------//
+//---------------------------------------//
+
+// TOOLTIP WRAP
+.tooltip-wrap { position: relative; }
+
+// TOOLTIP CLASS
+.mix-tooltip(@toggle-tooltip);
+.mix-tooltip(@toggle: "off") when (@toggle = "on") {
+  .tooltip {
+    position: absolute;
+    padding: @tooltip-padding;
+    border-radius: @tooltip-radius;
+    width: @tooltip-width;
+    background-color: @tooltip-bg-color;
+    .mix-shadow(0px, 0px, @tooltip-shadow-depth, 0px, @tooltip-shadow-color);
+    &:after {
+      .mix-bg-img-overlay("tooltip-caret-btm.png", "framework", @tooltip-caret-w-landscape, @tooltip-caret-h-landscape);
+      bottom: -@tooltip-caret-h-landscape;
+      left: 50%;
+      margin-left: -@tooltip-caret-w-landscape / 2;
+      content: "";
+      display: block;
+      position: absolute;
+    }
+    &.caret-left {
+      right: -(@tooltip-width + @tooltip-caret-w-portrait);
+      &:after {
+        .mix-bg-img-overlay("tooltip-caret-left.png", "framework", @tooltip-caret-w-portrait, @tooltip-caret-h-portrait);
+        left: 0;
+        top: 50%;
+        bottom: auto;
+        margin-top: -@tooltip-caret-h-portrait / 2;
+        margin-left: -@tooltip-caret-w-portrait;
+      }
+    }
+
+    &.caret-right {
+      left: -(@tooltip-width + @tooltip-caret-w-portrait);
+      &:after {
+        .mix-bg-img-overlay("tooltip-caret-right.png", "framework", @tooltip-caret-w-portrait, @tooltip-caret-h-portrait);
+        right: -@tooltip-caret-w-portrait;
+        left: auto;
+        top: 50%;
+        bottom: auto;
+        margin-left: 0;
+        margin-top: -@tooltip-caret-h-portrait / 2;
+      }
+    }
+
+    &.caret-top {
+      &:after {
+        .mix-bg-img-overlay("tooltip-caret-top.png", "framework", @tooltip-caret-w-landscape, @tooltip-caret-h-landscape);
+        bottom: auto;
+        top: -@tooltip-caret-h-landscape;
+        left: 50%;
+        margin-left: -@tooltip-caret-w-landscape / 2;
+      }
+    }
+  }
+} 

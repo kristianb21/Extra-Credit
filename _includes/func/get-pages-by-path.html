@@ -1,0 +1,43 @@
+{% include func/base-url.html %}
+
+{% assign pages =  site.pages | sort: "weight" %}
+<!-- {% if include.actions != 'split' %} -->
+
+  <ul {{ include.list_attributes }}>
+    {% for page in pages reversed %}
+      {% assign page_url =  page.permalink | split: "/" %}
+      {% if page_url[1] == include.page_type %}
+      {% assign page_url =  page.url | remove_first: "/" %}
+
+      {% assign url_suffix =  "" %}
+      {% if include.return_link == "true" %}
+        {% assign url_suffix =  "?" %}
+      {% endif %}
+        <li>
+          <a class="page-link" href="{{ page_url | prepend: relative-baseurl }}">{{ page.title }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+
+<!-- [CHECK] - Need to split list in half
+ --><!-- {% else %}
+  <div class="group">
+    {% for page in pages reversed %}
+      {% assign page_url =  page.permalink | split: "/" %}
+      {% if page_url[1] == include.page_type %}
+      {% assign page_url =  page.url | remove_first: "/" %}
+
+        <div class="spl-6 span-3">
+          <ul {{ include.list_attributes }}>
+            <li>
+              <a class="page-link" href="{{ page_url | prepend: relative-baseurl }}">{{ page.title }}</a>
+            </li>
+          </ul>
+        </div>
+
+      {% endif %}
+    {% endfor %}
+</div> -->
+
+<!-- {% endif %} -->

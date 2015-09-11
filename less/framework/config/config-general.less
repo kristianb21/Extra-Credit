@@ -1,0 +1,229 @@
+/*=============================================================================
+GLOBAL - GENERAL - Defualt HTML elements
+===========================================================================*/
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+//  01  Things left out of Renders
+//  02  General items to include
+
+//-----------------------------------------------------------------------//
+//---------------------------CLASSES & ELEMENTS--------------------------//
+//-----------------------------------------------------------------------//
+
+//-----------------------------------------------//
+//------01. OUT WYSIWYG & MAIL RENDERING---------//
+//-----------------------------------------------//
+
+body {
+  font-size: @type-base;
+  line-height: @type-base-lh;
+  font-family: @font-family;
+  color: @par-color;
+}
+
+//-------------------------------------------//
+//-------02.IN WYSIWYG RENDERING------------//
+//-------------------------------------------//
+
+.general() {
+
+  //---------------TYPOGRAPHY--------------//
+
+  p {
+    color: @par-color;
+    margin-bottom: @par-lh;
+    .t-par;
+    //&:last-of-type {margin-bottom: 0;}
+    .links;
+  }
+  sup, sub {
+    vertical-align: baseline;
+    position: relative;
+    font-size: @type-smaller;
+  }
+  sub { top: 0.4em; }
+  sup { top: -0.4em; }
+  b { font-weight: bold; }
+  strong { font-weight: bold; }
+  em { font-style:italic; }
+  i { font-style:italic; }
+  u { text-decoration:underline; }
+
+  //---------------HEADLINES--------------//
+
+  //  NOTE: Headlines are written as classes so they can
+  //  be extendedand mixed in where they need to.
+  //  Becuase headlines don't always stay true between level
+  //  and visual style (especially in WYSIWYG Editor)
+
+  .h1 {
+    font-size: 34px;
+    line-height: 1.25em;
+    color: @color-red;
+    font-weight: normal;
+  }
+  .h2 {
+    font-size: 22px;
+    line-height: 30px;
+    color: @color-red;
+    font-weight: bold;
+    margin-bottom: @base-element-margin;
+    margin-top: @base-medium;
+    border-top: 4px solid @color-yellow;
+    padding-top: @base;
+  }
+  .h3 {
+    font-size: 18px;
+    line-height: 24px;
+    color: @color-red;
+    font-weight: bold;
+    margin-bottom: 12px;
+  }
+  .h4 {
+    font-size: 15px;
+    line-height: 25px;
+    color: @color-black-90;
+    font-weight: bold;
+  }
+  .h5 {
+    // DEFINE HEADLINE
+
+  }
+  .h6 {
+    // DEFINE HEADLINE
+
+  }
+
+
+  h1 { &:extend(.h1 all); }
+  h2 { &:extend(.h2 all); }
+  h3 { &:extend(.h3 all); }
+  h4 { &:extend(.h4 all); }
+  h5 { &:extend(.h5 all); }
+  h6 { &:extend(.h6 all); }
+
+  //---------------IMAGES------------------//
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  //----------------LINKS------------------//
+
+  // Define as varaibles for use elsewhere
+  @a-color: @color-blue-new;
+  @a-color-hover: @color-orange;
+  @a-color-visited: @color-violet;
+  @a-color-light: lighten(@a-color, 40%);
+  @a-color-light-hover: spin(@a-color-light, 10);
+
+  a {
+    text-decoration: none;
+    color: @a-color;
+  }
+
+  //----------------LINKS------------------//
+
+  form {
+    margin: 0;
+    padding: 0;
+  }
+  label {
+    &:extend(.label);
+  }
+  fieldset {
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  //-----------HORIZONTAL RULES------------//
+
+  hr {
+    height: 0;
+    border: 0;
+    border-bottom: 1px solid @color-black-75;
+  }
+
+
+  //------------------LISTS----------------//
+
+  // UNORDERED LISTS
+
+  ul { list-style: none; }
+
+  // ORDERED LISTS
+
+  ol {
+    margin-bottom: @base;
+    list-style: decimal outside;
+    li {
+      margin-bottom: @base-small;
+      margin-left: 21px;
+    }
+    ol {
+      margin: @base-small 0 0 @base-small;
+      list-style-type: lower-alpha;
+      ol { list-style-type: lower-roman;}
+    }
+  }
+
+  //---------------TABLE--------------//
+
+  // SETTINGS
+  @table-pad: @base-smaller @base-small;
+
+  table {
+    border: 1px solid @color-black-25;
+    border-collapse: collapse;
+    background-color: white;
+    width: 100%;
+    text-align: left;
+    font-size: @type-base;
+    font-weight: normal;
+  }
+  th {
+    padding: @table-pad;
+    background-color: @color-black-13;
+    border-left: 1px solid @color-black-25;
+    &:first-of-type { border-left: none; }
+    img { display: inline; margin-left: 4px; } // Sortable Tables Icon (Drupal)
+    h3, h4, h5, h6 { margin-bottom: 0; } // Incase headlines are used in tables (ie. WYSIWYG)
+  }
+  tr { border-bottom: 1px solid @color-black-25; }
+  td {
+    padding: @table-pad;
+    border-left: 1px solid @color-black-25;
+  }
+  tfoot {
+    background-color: @color-black-5;
+    font-size: @type-smaller;
+    font-weight: normal;
+  }
+  tbody {
+    tr {
+      &:nth-child(odd) { background-color: @color-black-2; }  // Add striping
+      &:last-of-type { border-bottom: none; }
+    }
+  }
+
+  //---------------BLOCKQUOTE--------------//
+
+  blockquote {
+    // DEFINE
+  }
+
+}
+
+//-------------------------------------------------------------//
+//--------------------PRINT OUT ALL ABOVE----------------------//
+//-------------------------------------------------------------//
+
+// NOTE: The top classes and elements are contained to put the content
+// in the "screen.less" but to remove it fromt he "WYSIWYG Render".
+
+.general();

@@ -1,0 +1,61 @@
+// ================================================================
+// MIXINS - TYPE - Mixins to help typography
+// ================================================================
+
+//------TABLE TYPE------//
+
+.mix-break-words() {
+  -ms-word-break: normal;
+  word-break: normal;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+.mix-wrap-words() {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+
+//------TEXT SHADOW------//
+
+.mix-text-shadow(@horizontal, @vertical, @blur, @color) {
+  text-shadow: unit(@horizontal, px) unit(@vertical, px) unit(@blur, px) @color;
+  filter: dropshadow(color=argb(@color), offx=@horizontal, offy=@vertical);
+}
+
+//------RENDERING------//
+
+// Improves text quality, use only when needed.
+.mix-text-quality() {
+	text-rendering: optimizelegibility;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+//------FONT SIZE------//
+
+.mix-rem(@font-size) {
+	@font-calc: @font-size / @base-font-size;
+	font-size: ~"@{font-size}px";
+	font-size: ~"@{font-calc}rem";
+}
+
+
+//------UNCATEGORIZED-----//
+
+.mix-force-wrap() {
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+//--------HIDE TEXT-------//
+
+// See mix-assessability.less

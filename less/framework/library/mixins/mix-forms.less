@@ -1,0 +1,202 @@
+// ================================================================
+// MIXINS - FORM RELATED 
+// ================================================================
+
+
+//------INPUT (Textfield)------//
+
+.mix-text-input(@height, @font-color, @font-size: @type-base, @border-width: 0, @border-color: white, @border-radius: 0, @indent: 6px) {
+	-webkit-appearance: none;	// ios and webkit
+	-moz-appearance: none;		// Mozilla
+	appearance: none;   			// IE 10
+	-webkit-border-radius: @border-radius;
+	-moz-border-radius: @border-radius;
+	border-radius: @border-radius;
+	width: 98%;
+  max-width: 100%; // Protect Against text area resizing
+	height: @height;
+	background: white;
+	border-width: @border-width;
+	border-style: solid;
+	border-color: @border-color;
+	font-size: @font-size;
+	font-weight: normal;
+	font-family: @font-family;
+	line-height: 1.3em;
+	color: @font-color;
+	text-indent: @indent;
+}
+
+//------INPUT (Button Defualt Hover)------//
+
+.mix-btn-input(@padding, @font-size, @font-color, @bg-color, @border-width: 0, @border-color: white, @border-radius: 0) {
+  -webkit-appearance: none; // ios and webkit
+  -moz-appearance: none;    // Mozilla
+  appearance: none;         // IE 10
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  border-radius: @border-radius;
+  background-color: @bg-color;
+  padding: @padding @padding*@btn-proportion;
+  border-width: @border-width;
+  border-style: solid;
+  border-color: @border-color;
+  color: @font-color;
+  font-family: @font-family;
+  font-size: @font-size;
+  line-height: 1.3em;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    background-color: darken(@bg-color, 10%);
+    border-color: darken(@border-color, 25%);
+  }
+}
+
+//------INPUT (Button Transparent)------//
+
+.mix-btn-input-transparent(@padding, @font-size, @font-color, @hover-color: @font-color, @font-weight: bold) {
+  -webkit-appearance: none; // ios and webkit
+  -moz-appearance: none;    // Mozilla
+  appearance: none;         // IE 10
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: transparent;
+  padding: @padding;
+  border-width: 0;
+  border-style: solid;
+  border-color: white;
+  color: @font-color;
+  font-family: @font-family;
+  font-size: @font-size;
+  line-height: 1.3em;
+  font-weight: @font-weight;
+  cursor: pointer;
+  &:hover { color: @hover-color; }
+}
+
+
+
+//------INPUT (Button, Icon Only)------//
+
+.mix-btn-input-icon-only(@icon-name, @height, @width, @font-size, @font-color, @bg-color, @border-width: 0, @border-color: white, @border-radius: 0) {
+  @font-size-calc: @font-size / 2;
+  position: relative;
+  height: @height;
+  width: @width;
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  border-radius: @border-radius;
+  background-color: @bg-color;
+  border-width: @border-width;
+  border-style: solid;
+  border-color: @border-color;
+  cursor: pointer;
+  &:hover {
+    background-color: darken(@bg-color, 10%);
+    border-color: darken(@border-color, 25%);
+  }
+  &:before {
+    position: absolute;
+    display: block;
+    .mix-icon(@icon-name, @font-color, @font-size);
+    line-height: @height; // Center Icon
+    text-align: center; // Center Icon
+    vertical-align: middle;
+    margin-top: 2px; // Nudge
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  // Put the input on top
+  input { 
+    -webkit-appearance: none; // ios and webkit
+    -moz-appearance: none;    // Mozilla
+    appearance: none;         // IE 10
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-color: transparent;
+    border-width: 0;
+    border-style: solid;
+    border-color: white;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // HIDE TEXT
+    font-size: 0;
+    .mix-opacity(0);
+  }
+}
+
+//------LABELS to MATCH------//
+
+.mix-label-match-p(@color: @par-color, @weight: bold) {
+	font-size: @type-base;
+	line-height: @type-base-lh;
+	color: @color;
+	font-weight: @weight;
+	margin-bottom: @type-base-lh;
+}
+
+//------SELECT BOXES------//
+
+.mix-select(@height, @pad-left, @bg-color, @color, @font-size, @weight, @icon-name, @icon-size, @icon-color, @brd-color: white, @brd-width: 0) {
+  background: white;
+  border-color: @brd-color;
+  border-width: @brd-width;
+  border-style: solid;
+  overflow: hidden;
+  position: relative;
+  &:after {
+    .mix-icon(@icon-name, @icon-color, @icon-size);
+    position: absolute;
+    top: 0;
+    right: 12px;
+    display: block;
+    z-index: 100;
+    vertical-align: middle;
+    line-height: @height; // Center icon
+    pointer-events:none;  // So you can click through
+  }
+  select {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    width: 115%; // BC Borders
+    height: @height;
+    background: @bg-color;
+    border-width: 0;
+    font-size: @font-size;
+    line-height: 1.3em;
+    font-weight: @weight;
+    font-family: @font-family;
+    color: @color;
+    padding-left: @pad-left;
+    &:focus {outline: 0; border: 0;}
+  }
+  // DRUPAL
+  .form-item { margin-bottom: 0; }
+}
+
+// When you can't wrap the select box.
+.mix-select-simple(@height, @width, @pad-left: 4px, @bg-color: white, @brd-color: black, @font-size: initial, @font-color: inherit) {
+  height: @height;
+  background-color: @bg-color;
+  border: 1px solid @brd-color;
+  color: @font-color;
+  font-size: @font-size;
+  text-indent: @pad-left;
+  min-width: @width;
+  max-width: 100%;
+}
+

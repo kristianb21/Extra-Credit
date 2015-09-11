@@ -1,0 +1,114 @@
+/*==========================================================================
+FRAMEWORK - BUTTONS - Buttons Styling
+==========================================================================*/
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+//  01  Button (Settings)
+//  02  Button (Class)
+//  03  Button (Sizes)
+//  03  Button (Colors)
+//  03  Button (Mixin Additions)
+//      *add anything you want to be inlcued in the button mixin
+//  05  Button (others)
+
+//-----------------------------------------------------------------------//
+//-----------------------------01. SETTINGS------------------------------//
+//-----------------------------------------------------------------------//
+
+// OVERALL
+@btn-border-radius: 5px;        // Set to 0 for none
+@btn-proportion: 2.5;          // Padding Proportions (w vs. h)
+@btn-brd-width: 0;              // Set to 0 for none
+@btn-hover-bg-amount: -5%;      // Amount to darken background (use negative value for lighten)
+@btn-hover-brd-amount: 20%;     // Amount to darken border (use negative value for lighten)
+
+// PRIMARY BUTTON
+@btn-bg: @color-red-new;
+@btn-brd-color: black;
+@btn-txt-color: @color-cream;
+
+// SECONDARY BUTTON
+@btn-alt-bg: @color-black-50;
+@btn-alt-brd-color: black;
+@btn-alt-txt-color: white;
+
+// BUTTON SIZES
+@btn-small-height: @base-smaller - 3px;
+@btn-small-txt-size: @type-small;
+@btn-height: @base-smaller - 2px;
+@btn-txt-size: @type-base;
+@btn-large-height: @base-small;
+@btn-large-txt-size: @type-med;
+
+// ICON BUTTONS
+@btn-icon-only-small-height: 30px;
+@btn-icon-only-height: 44px;
+@btn-icon-only-large-height: 60px;
+
+//-----------------------------------------------------------------------//
+//-------------------------------CLASSES---------------------------------//
+//-----------------------------------------------------------------------//
+
+//---------------------------------------//
+//-------------02. BUTTON CLASS----------//
+//---------------------------------------//
+
+.btn {
+  // PARAMS: .mix-btn-framework(@height, @bg-color, @font-size, @font-color: white, @brd-radius: 0, @brd-size: 0, @brd-color: transparent
+  .mix-btn-framework(@btn-height, @btn-bg, @btn-txt-size, @btn-txt-color, @btn-border-radius, @btn-brd-width, @btn-brd-color);
+}
+
+//---------------------------------------//
+//-----------03. BUTTON SIZES------------//
+//---------------------------------------//
+
+// PARAMS: @classname, @height, @font-size
+.mix-btn-framework-size(small, @btn-small-height, @btn-small-txt-size);
+.mix-btn-framework-size(large, @btn-large-txt-size, @btn-large-txt-size);
+
+//---------------------------------------//
+//---------04. ALTERNATE COLORS----------//
+//---------------------------------------//
+
+// Add other colors, keep "alt" this is defualt.
+
+// PARAMS: @classname, @bg-color, @font-color: white, @brd-color: transparent
+.mix-btn-framework-color(alt, @btn-alt-bg, @btn-alt-txt-color, @btn-alt-brd-color); // KEEP
+
+//---------------------------------------//
+//-----------05. ADD-IN STYLES-----------//
+//---------------------------------------//
+
+// Add anything you would like included in the button mixin
+.btn-mixin-additions() {
+  .btn-shadow;
+  font-weight: 300;
+  &:hover { .mix-inset-shadow(0px, 0px, 5px, 0px, rgba(0,0,0,0.5)); }
+}
+
+//---------------------------------------//
+//------------06. OTHER------------------//
+//---------------------------------------//
+
+// Customize Button Shadow
+.btn-shadow {
+  .mix-shadow(0px, 1px, 1px, 0px, rgba(0,0,0,0.75));
+}
+// Customize Button Disbaled Styling
+.btn-shadow-disabled {
+  .mix-inset-shadow(0px, 0px, 5px, 0px, rgba(0,0,0,0.75));
+  .mix-opacity(.8);
+}
+
+
+//---------------------------------------//
+//-----------07. ICON ONLY---------------//
+//---------------------------------------//
+
+// PARAMS: @classname, @height, @font-size
+.mix-btn-framework-icon-only(only-small, 30px, 120%);
+.mix-btn-framework-icon-only(only, 50px, 160%);
+.mix-btn-framework-icon-only(only-large, 60px, 180%);

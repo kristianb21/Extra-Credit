@@ -1,0 +1,47 @@
+/* =======================================================================
+PARTIAL - HOME
+========================================================================== */
+
+//---- SITE TITLE ---//
+
+// [CHECK] Logo and title changing to 34px; (Bold/Light)
+// [CHECK] Height of box for nav changing to 50px;
+// HOME INTRO
+.section-home-intro {
+  background-color: @color-blue;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: @home-intro-height;
+  @media @break-primary {
+    background-color: lighten(@color-blue, 5%);
+  }
+}
+.section-home-content {
+  margin-top: @home-intro-height;
+  background-color: white;
+}
+.home-h1 {
+  padding-top: 100px;
+  padding-bottom: @base-medium;
+  margin-left: @logo-width + (@logo-pad-lr / 2); 
+  color: white;
+  font-size: 34px;
+  line-height: 1.25em;
+  letter-spacing: .01em;
+  @media @break-primary {
+    padding-top: 100px;
+    margin-left: 0; 
+  }
+}
+.home-mini {
+  font-size: 18px;
+  line-height: 1.25em;
+  color: @color-yellow;
+  display: block;
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: .01em;
+}

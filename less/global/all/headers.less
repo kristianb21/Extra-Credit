@@ -1,0 +1,137 @@
+/* =============================================================================
+GLOBAL - Headers
+=========================================================================== */
+
+@home-intro-height: 240px;
+@logo-width: 134px;
+@logo-pad-lr: 20px;
+@logo-height: 50px; // Approx for other content to move down by
+// OVERALL
+// .site-header-wrap-outer {
+//   border-bottom: 1px solid lighten(@color-blue-darker, 10%);
+// }
+.section-header-wrap {
+  background-color: @color-blue;
+  //border-bottom: 1px solid darken(@color-blue, 5%); // Combined to make a shadow
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  .mix-shadow(0px, 1px, 2px, 0px, rgba(0,0,0,0.35));
+  &.home-overlap {
+    background-color: transparent;
+    .mix-shadow-none();
+    .logo {
+      padding-top: 131px;
+      padding-bottom: 24px;
+    }
+    @media @break-primary {
+      background-color: @color-blue;
+      .logo {
+        padding-top: 11px;
+        padding-bottom: 11px;
+      }
+    }
+  }
+}
+.section-header-inner {
+  position: relative; // For mobile nav
+}
+.site-header {
+  color: @color-white;
+  text-align: left;
+  @media @tablet {
+    text-align: right;
+  }
+}
+
+// OVERALL
+.logo {
+  float: left;
+  background-color: darken(@color-blue, 10%);
+  font-size: 32px;
+  font-weight: 300;
+  width: @logo-width;
+  text-align: center;
+  padding-left: @logo-pad-lr;
+  padding-right: @logo-pad-lr;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  margin-left: -@logo-pad-lr;
+  a { color: @color-yellow; }
+}
+.logo-id {
+  font-weight: bold;
+  color: white;
+}
+.mobile-trigger-wrap {
+  .mix-inline-block();
+  @media @break-primary {
+    float: right;
+  }
+}
+.mobile-btn {
+  padding: 10px;
+}
+.mobile-hidden-wrap {
+  @media @break-primary {
+    width: 320px;
+    position: absolute;
+    top: 47px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9997;
+    background-color: lighten(@color-blue, 2%);
+    border-top: 1px solid darken(@color-blue, 5%);
+    .mix-shadow(0px, 1px, 2px, 0px, rgba(0,0,0,0.35));
+  }
+}
+// SEARCH FORM
+.search-wrap {
+  float: right;
+}
+.tiptue-search-form {
+  padding: 10px 0;
+  width: 200px;
+  font-style: italic;
+  position: relative;
+  float: right;
+  input {
+    .mix-text-input(26px, @color-black-65, @type-small, 2px, lighten(@color-blue, 50%), 15px, 10px);
+  }
+  &:before {
+    .mix-icon('search', @color-blue, @icon-font-size, @font-align: middle);
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    z-index: 1;
+  }
+}
+
+//---------MOBILE HEADER-----------//
+
+.mobile-btn {
+  display: none;
+  @media @break-primary {
+    .mix-inline-block();
+  }
+}
+
+
+// .header-mobile-toggle-wrap {
+//   display: none;
+//   @media @break-primary {
+//     .mix-inline-block();
+//   }
+// }
+
+// .header-mobile-wrap {
+//   @media @break-primary {
+//     display: none;
+//   }
+// }
+
+
+

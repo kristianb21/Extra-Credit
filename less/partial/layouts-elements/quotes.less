@@ -1,0 +1,102 @@
+/* =======================================================================
+PARTIAL - QUOTES
+========================================================================== */
+
+
+//---------QUOTES---------//
+.quote-wrap {
+  margin: @base-element-margin 0;
+}
+.quote-body {
+  font-size: @type-med + 2px;
+  line-height: @type-med-lh + 2px;
+  font-weight: 300;
+  color: @color-blue;
+}
+.quote-author-wrap {
+  position: relative;
+  margin-top: 10px;
+   &.has-image {
+    min-height: 80px;
+    .quote-author {
+      padding-left: 86px;
+      padding-top: 10px;
+    }
+    .quote-title {
+      display: block;
+      margin-top: 2px;
+    }
+    .quote-show {
+      .hidden-visually;
+    }
+  }
+}
+.quote-author {
+  color: @color-blue-dark;
+  font-size: @type-base;
+  line-height: 1.25em;
+  font-weight: bold;
+}
+.quote-title {
+  font-size: @type-small;
+  line-height: 1.35em;
+  font-weight: normal;
+}
+.quote-image-wrap {
+  border: 4px solid @color-blue-dark;
+  .mix-circle(72px, transparent, inherit);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.quote-image {
+  .mix-circle-img-insetshadow(64px, rgba(0, 0, 0, .25));
+}
+// QUOTES NOT IN INTRO
+.section-content {
+  .aside  {
+    .quote-wrap {
+      border-top: 1px solid @color-cream-dark;
+      padding-top: @base-element-margin;
+      &:first-of-type { 
+        @media @break-primary { 
+          border-top: none; 
+          margin-top: 0;
+          padding-top: 0;
+        } 
+      }
+    }
+    .quote-body {
+      font-size: @type-base;
+      line-height: @type-base-lh + 2px;
+      color: @color-orange;
+    }
+    .quote-author {
+      font-size: @type-base;
+      line-height: @type-base-lh - 2px;
+      color: @color-orange;
+      font-style: italic;
+    }
+    .quote-image-wrap { 
+      border-color: @color-orange;
+    }
+  }
+  .body {
+    .quote-wrap {
+      max-width: 400px;
+      border-left: 3px solid lighten(@color-blue, 20%);
+      padding-left: @base;
+    }
+    .quote-body {
+      font-size: @type-base;
+      line-height: @type-base-lh + 2px;
+      color: @color-blue;
+    }
+    .quote-author {
+      font-size: @type-base;
+      line-height: @type-base-lh - 2px;
+      color: @color-blue;
+      font-style: italic;
+    }
+  }
+}

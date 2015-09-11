@@ -1,0 +1,36 @@
+/* =============================================================================
+ FRAMEWORK - GRID - All framework styles for Grid settings
+ ========================================================================== */
+
+//  NOTE: Leave prefix and breakpoint blank to create
+//  defualt grid or split, defualt grids breaks at mobile.
+
+//------------------------------------------------------------//
+//-----------------------------GRIDS--------------------------//
+//------------------------------------------------------------//
+
+@grid-snap: on; 	// Toggle full width on mobile for non-breakpoint grids
+@site-grid-columns: 8;
+@site-grid-gutter: 4%;
+
+
+// PARAMS: (@columns, @columns, @gutter, @offsets(on/off), @prefix-name, @breakpoint)
+.loop-create-grid(@site-grid-columns, @site-grid-columns, @site-grid-gutter, on);
+//.loop-create-grid(9, 9, 2%, on, t, @tablet);
+
+// Mixins for grids must be built from largest to smallest (e.g. desktop, tablet)
+// This is due to the cascading order in the rules to overwrite necessary
+// styles, while utilizing CSS's "!important".
+
+
+//------------------------------------------------------------//
+//----------------------------SPLITS--------------------------//
+//------------------------------------------------------------//
+
+// PARAMS: (@Columns, @Columns - 1, @Breakpoint(optional))
+
+.loop-create-split(6, 5);
+//.loop-create-split(4, 3, t, @tablet);
+
+
+

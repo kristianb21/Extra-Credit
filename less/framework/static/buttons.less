@@ -1,0 +1,130 @@
+/*==========================================================================
+FRAMEWORK - BUTTONS - Buttons Styling
+==========================================================================*/
+
+
+//-----------------------------------------------------------------------//
+//-------------------------------CONTENTS--------------------------------//
+//-----------------------------------------------------------------------//
+
+//	01	Button Special Class
+// 	04 	Mixin (Main)
+//	05	Mixin (Colors)
+//  06  Mixin (Size)
+//  06  Mixin (Icon Only)
+
+//-----------------------------------------------------------------------//
+//----------------------------SPECIAL CLASSES----------------------------//
+//-----------------------------------------------------------------------//
+
+//  Disabled
+.btn-disabled { .btn-shadow-disabled; }
+// Transparent
+.btn-clear {
+  background-color: transparent;
+  color: @a-color;
+  .mix-shadow-none();
+  &:hover {
+    background-color: transparent;
+    color: @a-color-hover;
+    .mix-shadow-none();
+  }
+}
+
+//-----------------------------------------------------------------------//
+//-------------------------------MIXINS----------------------------------//
+//-----------------------------------------------------------------------//
+
+//---------------------------------------//
+//--------------04. MAIN-----------------//
+//---------------------------------------//
+
+.mix-btn-framework(@height, @bg-color, @font-size, @font-color: white, @brd-radius: 0, @brd-size: 0, @brd-color: transparent) {
+	display: inline-block;
+	padding: @height @height*@btn-proportion;
+	background-color: @bg-color;
+	color: @font-color;
+	text-align: center;
+	vertical-align: middle;
+	letter-spacing: @letter-spacing;
+	cursor: pointer;
+  border-style: solid;
+	border-width: @brd-size;
+	border-color: @brd-color;
+	line-height: 1.3em;
+	.mix-border-radius(@brd-radius);
+	// These need to be set if using in WYSIWYG area where links have both visited and hover states.
+	&:visited {
+		background-color: @bg-color;
+		color: @font-color;
+		border-color: @brd-color;
+	}
+	&:hover {
+		background-color: darken(@bg-color, @btn-hover-bg-amount);
+		color: @font-color;
+		border-color: darken(@brd-color, @btn-hover-brd-amount);
+	}
+  .btn-mixin-additions();
+}
+
+//---------------------------------------//
+//---------05. BUTTON COLORS-------------//
+//---------------------------------------//
+
+.mix-btn-framework-color(@classname, @bg-color, @font-color: white, @brd-color: transparent) {
+	.btn-@{classname} {
+		background-color: @bg-color;
+		border-color: @brd-color;
+		color: @font-color;
+		&:hover {
+			background-color: darken(@bg-color, @btn-hover-bg-amount);
+			color: @font-color;
+			border-color: darken(@brd-color, @btn-hover-brd-amount);
+		}
+		&:visited {
+			background-color: @bg-color;
+			color: @font-color;
+			border-color: @brd-color;
+		}
+	}
+}
+
+//---------------------------------------//
+//----------06. BUTTON SIZE--------------//
+//---------------------------------------//
+
+.mix-btn-framework-size(@classname, @height, @font-size) {
+  .btn-@{classname} {
+    font-size: @font-size;
+    padding: @height @height*@btn-proportion;
+  }
+}
+
+//---------------------------------------//
+//----------07. ICON ONLY--------------//
+//---------------------------------------//
+
+.mix-btn-framework-icon-only(@classname, @height, @font-size) {
+  .i-@{classname} {
+    .hide-text;
+    height: @height;
+    width: @height;
+    position: relative;
+    padding: 0;
+    display: inline-block;
+    &:before {
+      .i-defaults;
+      line-height: @height;
+      text-indent: 0;
+      white-space: normal;
+      font-size: @font-size;
+      display: block;
+      position: absolute;
+      text-align: center;
+      vertical-align: middle;
+      width: 100%;
+      height: 100%;
+      top: 2px; // Nudge
+    }
+  }
+}

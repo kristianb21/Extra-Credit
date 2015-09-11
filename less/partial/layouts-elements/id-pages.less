@@ -1,0 +1,156 @@
+/* =======================================================================
+PARTIAL - STEPS
+========================================================================== */
+
+//------STEPS-------//
+
+.list-steps {
+  counter-reset:li; 
+  margin-left:0;
+  padding-left:0;
+  li {
+    position:relative; 
+    margin:0 0 @base-smaller 55px; 
+    padding: 18px 0px 5px 20px; 
+    list-style:none; 
+    &:before {
+      content:counter(li);
+      counter-increment:li; /* Increment the counter by 1 */
+      position:absolute;
+      top:0;
+      left: -55px;
+      -moz-box-sizing:border-box;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box;
+      width: 70px;
+      margin-right:8px;
+      padding:4px;
+      font-size: 26px;
+      line-height: 48px;
+      font-weight: 300;
+      text-align: left;
+      vertical-align: middle;
+      .mix-circle(56px, @color-blue, white);
+    }
+    //-------NESTED LISTS-----//
+    ul {
+      &:extend(.list-bullet-plain all);
+    }
+    li {
+      padding: 0;
+      margin-left: 0;
+      &:before, &:after {
+        counter-increment: none;
+        content: none;
+      }
+    }
+    &:after {
+      // Add border to bottom of eacch
+      border-bottom: 1px solid @color-black-15;
+      display: block;
+      content: " ";
+      padding-top: @base-element-margin;
+    }
+    &:last-child {
+      &:after { border-bottom: none; }
+    }
+    p:last-child {
+      margin-bottom: 0px;
+    }
+  }
+  // COLLAPSABLE STEPS (purpose pages)
+  .pp-steps && {
+    li {
+      &:before {
+        background-color: @color-orange;
+      }
+    }
+  }
+}
+
+//---------LISTS-----------//
+
+// COMMONLY REQUIRED BY LISTS
+.list-req {
+  strong {
+    color: @color-blue-dark;
+  }
+  li {
+    margin-bottom:  @base-small;
+    background-position: left 9px;
+  }
+}
+
+//---------COLLAPSABLE's-----------//
+
+.pp-req {
+  border-bottom: 1px solid @color-black-25;
+  margin-top: @base;
+}
+.pp-req-trigger {
+  padding: @base-small 0;
+  border-top: 1px solid @color-black-25;
+  .id-title {
+    color: @color-blue;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    padding-right: 100px; //To clear text
+    &:after {
+      .mix-icon('dot-plus', inherit, 24px);
+      position: absolute;
+      top: 50%;
+      margin-top: -10px;
+      right: -2px; // Nudge for icons size/space
+    }
+    &:hover {
+      color: @color-orange;
+    }
+  }
+  .ui-text {
+    font-size: @type-small;
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    margin-top: -(@type-small - 1px);
+  }
+  .text-close { 
+    display: none;
+    color: @color-orange-dark; 
+  }
+  &.active {
+    .text-close { display: block; }
+    .text-open { display: none; }
+    .id-title {
+       &:after {
+        .mix-icon('dot-minus', @color-orange, 24px);
+      }
+      &:hover:after {
+        color: @color-orange-dark;
+      }
+    }
+  }
+}
+.pp-req-content {
+  background-color: @color-cream;
+  border: 1px solid @color-cream-dark;
+}
+.pp-steps {
+  padding: @base;
+}
+.pp-learnmore {
+  background-color: darken(@color-cream, 5%);
+  border-top: 1px solid @color-cream-dark;
+  padding: @base;
+  position: relative;
+  padding-right: 120px;
+  a {
+    display: block;
+    position: absolute;
+    right: @base;
+    top: 50%;
+    margin-top: -17px;
+  }
+}
+

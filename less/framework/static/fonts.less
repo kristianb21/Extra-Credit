@@ -1,0 +1,40 @@
+// =============================================================================
+// FRAMEWORK - FONTS - All colors used in theme
+// =============================================================================
+
+//---------------------------------------//
+//------------GOOGLE FONTS---------------//
+//---------------------------------------//
+
+// NOTE: Add quotes "url("//path") is proper syntax when removing the "http:"
+
+.mix-google-font-import(@name) { 
+  @import url("@{name}"); 
+}
+
+.mix-icon-font-face(@name) when (@toggle-simple-paths = off) { 
+  @charset "UTF-8";
+  @font-face {
+    font-family: "@{font-family-icon}";
+    src:url("@{site-theme-path}/fonts/@{name}.eot");
+    src:url("@{site-theme-path}/fonts/@{name}.eot?#iefix") format("embedded-opentype"),
+      url("@{site-theme-path}/fonts/@{name}.woff") format("woff"),
+      url("@{site-theme-path}/fonts/@{name}.ttf") format("truetype"),
+      url("@{site-theme-path}/fonts/@{name}.svg#@{name}") format("svg");
+    font-weight: normal;
+    font-style: normal;
+  }
+}
+.mix-icon-font-face(@name) when (@toggle-simple-paths = on) { 
+  @charset "UTF-8";
+  @font-face {
+    font-family: "@{font-family-icon}";
+    src:url("../fonts/@{name}.eot");
+    src:url("../fonts/@{name}.eot?#iefix") format("embedded-opentype"),
+      url("../fonts/@{name}.woff") format("woff"),
+      url("../fonts/@{name}.ttf") format("truetype"),
+      url("../fonts/@{name}.svg#@{name}") format("svg");
+    font-weight: normal;
+    font-style: normal; 
+  }
+} 

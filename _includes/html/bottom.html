@@ -1,0 +1,20 @@
+<script type="text/javascript">
+
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    });
+  }
+
+</script>
+
+{% comment %}<script src="{{relative-baseurl}}js/lib/hover-intent/hover-intent.js"></script>{% endcomment %}
+<script src="{{relative-baseurl}}js/lib/knockout/knockout.min.js"></script>
+<script src="{{relative-baseurl}}js/lib/sammy/sammy-latest.min.js"></script>
+
+<script src="{{relative-baseurl}}js/main.js"></script>
+<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RJOEV24yFEEhDMI3SvYG2Oz_XcdvLWA&callback=initMap">
+    </script>
