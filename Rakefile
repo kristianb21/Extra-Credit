@@ -36,7 +36,6 @@ task :production do
 end
 
 task :watch  do
-  raise "### You haven't generated Jekyll yet. Run: $ rake generate" unless File.directory?('_site')
   puts "Starting to watch source with Jekyll and LESS."
   system "bundle exec jekyll clean"
   system "gulp"

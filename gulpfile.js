@@ -57,13 +57,6 @@ gulp.task('scripts', function() {
     .pipe(uglify())
     .pipe(gulp.dest(jsDest));
 });
-
-// Custom for tipuesearch
-gulp.task('mini-search', function() {
-  return gulp.src('_site/js/lib/tipuesearch/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest('_site/js/lib/tipuesearch/'));
-});
 // Scripts with Dev Options, TODO: Run tasks with flags to combine both task functions.
 // gulp.task('scripts', function() {
 //   return gulp.src(jsPaths)
@@ -183,3 +176,15 @@ gulp.task('default', ['lint', 'less']);
 
 // Prepare Output for production -----------------------------------------------
 gulp.task('build', ['minify-html', 'scripts']);
+
+var csv2json = require('gulp-csv2json');
+
+gulp.task('csv-2-json', function () {
+
+var csvParseOptions = {}; //based on options specified here : http://csv.adaltas.com/parse/
+
+    gulp.src('datasets/*.csv')
+        .pipe(csv2json(csvParseOptions))
+        .pipe(rename({extname: '.json'}))
+        .pipe(gulp.dest('datasets'));
+});
