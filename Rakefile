@@ -55,7 +55,6 @@ task :build  do
   system "bundle exec jekyll clean"
   system "gulp"
   jekyllPid = Process.spawn("bundle exec jekyll build --watch")
-  system "gulp scripts"
   lessPid = Process.spawn("gulp watch")
 
   trap("INT") {

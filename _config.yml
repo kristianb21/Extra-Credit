@@ -1,14 +1,15 @@
 # Site settings
-name: ASAF
-title: ASAF
+name: Extra Credit
+title: Extra Credit
 subtitle: >
-  After School Activity Finder
-email: kristianb21@gmail.com
+  Beyond the Bell
+email: kristianb21 - gmail - com
 description: > # this means to ignore newlines until "url:"
-  After School Activity Finder (ASAF). A single page application to assist with searching for activities for students to do after school.
+  Extra Credit. A single page application to assist with searching for activities for students to do after school.
 url: "" # the base hostname & protocol for your site
 baseurl: ""
 permalink: pretty
+live_production: false
 
 defaults:
   -

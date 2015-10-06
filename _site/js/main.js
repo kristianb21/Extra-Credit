@@ -1,26 +1,342 @@
-'use strict';
-// Initate a Map for the App
-var map;
+(function () {
+console.log(window);
 
-var allMarkers = [];
-function initMap() {
+
+var map;
+// This object groups all the AJAX calls or other forms of grabbing data to
+// produce locations.
+var mapData = {};
+var iconBase = '../images/map-icons/';
+var icons = {
+    artgallery: {
+      iconType: 'Art Gallery/Museum',
+      icon: iconBase + 'artgallery.png'
+    },
+    library: {
+      iconType: 'Library',
+      icon: iconBase + 'library.png'
+    },
+    afterSchoolProgram: {
+      iconType: 'Extra Credit',
+      icon: iconBase + 'school.png'
+    }
+  };
+// These styles will change Google Map's default styles
+var styles = [
+  {
+    "featureType": "poi",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "poi.school",
+    "icon": iconBase+ icons.library.icon,
+    "stylers": [
+      { "visibility": "on" }
+    ]
+  },{
+    "featureType": "poi.school",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#A1A0D8" }
+    ]
+  },{
+    "featureType": "poi.school",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#A9CCE6" }
+    ]
+  },{
+    "featureType": "poi.school",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#2B2D2A" },
+      { "weight": 3 }
+    ]
+  },{
+    "featureType": "administrative",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#E3E4EF" }
+    ]
+  },{
+    "featureType": "administrative",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#2B2D2A" },
+      { "weight": 2 }
+    ]
+  },{
+    "featureType": "landscape",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#393F42" }
+    ]
+  },{
+    "featureType": "landscape.man_made",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      { "color": "#E5DAB3" }
+    ]
+  },{
+    "featureType": "water",
+    "stylers": [
+      { "color": "#7C9CC5" }
+    ]
+  },{
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#4D565E" }
+    ]
+  },{
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      { "color": "#CAA958" }
+    ]
+  },{
+    "featureType": "road",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      { "color": "#2B2D2A" },
+      { "weight": 2 }
+    ]
+  },{
+    "featureType": "road.highway",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "road",
+    "elementType": "geometry.fill",
+    "stylers": [
+      { "color": "#595B5C" }
+    ]
+  },{
+    "featureType": "poi.park"
+  }
+];
+
+/* An array containing all markers/locations. */
+var markers = [];
+
+
+/** Represents a location.
+ * @constructor
+ */
+var Location = function(title, content, latitude, longitude, group) {
+
+  this.title = title;
+  this.latitude = latitude;
+  this.content = content;
+  this.longitude = longitude;
+  this.group = group;
+  // By default, each location will not be on the map.
+  this.onMap = false;
+  // Create a unique ID for each location
+  this.locationID = this.latitude.toString().replace('-','0') + this.longitude.toString().replace('-','0');
+};
+
+/* This function constructs markers to be used on the map.
+ */
+Location.prototype.createMarker = function(mapIcon){
+
+  this.marker = new google.maps.Marker({
+    position: {lat: Number(this.latitude), lng: Number(this.longitude)},
+    map: map,
+    title: this.title,
+    icon: icons[mapIcon].icon
+  });
+
+  markers.push(this.marker);
+
+};
+
+/* This function adds the designated location to the map
+ */
+Location.prototype.mapThis = function(mapIcon){
+
+  this.marker.setMap(map);
+
+};
+
+/* This function removes the designated location from the map
+ */
+Location.prototype.clearMap = function(mapIcon){
+
+  this.marker.setMap(null);
+
+};
+
+/* Add event listner on markers on "click"
+ */
+Location.prototype.clickFunc = function(){
+
+  this.marker.addListener('click', function() {
+    // TODO
+    // Update InfoWindow with this marker's info
+  });
+};
+
+var data = {
+    name: 'Viewing '+markers.length+ ' locations.',
+    markers: markers
+};
+
+var viewModel = ko.mapping.fromJS(data);
+
+var MarkerModel = function(data) {
+    ko.mapping.fromJS(data, {}, this);
+    // used for testing
+    this.nameLength = ko.computed(function() {
+        return this.title().length;
+    }, this);
+};
+
+var mapping = {
+    'markers': {
+        key: function(data) {
+            return ko.utils.unwrapObservable(data.locationID);
+        },
+        create: function(options) {
+            return new MarkerModel(options.data);
+        }
+    },
+    'name': {
+      update: function(options) {
+          return options.data + ' foo!';
+      }
+    }
+};
+
+ko.mapping.fromJS(data, mapping);
+
+/* Initializes Google Maps and Creates all the needed markers
+*/
+window.initMap = function() {
 
   /* Setup Map */
   map = new google.maps.Map(document.getElementById('map'), {
+    // Start from home
     center: {lat: 40.835105, lng: -73.945388},
     zoom: 14
   });
 
-  /* Setup Infowindow */
-  var infoContent = $('#info-content').html();
-  console.log(infoContent);
-  var infowindow = new google.maps.InfoWindow({
-    content: infoContent
-  });
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
+  document.getElementById('legend'));
 
-  /* NYC Parks
-   * ref. http://nycdoe.pediacities.com/dataset/map-of-parks
-   */
+  // Customize map
+  map.set('styles', styles);
+
+  // Build Map Legend
+  buildMapLegend();
+
+  // Add markers from AJAX calls
+  mapData.afterSchoolProgram();
+  mapData.theArts();
+  // mapData.nycParks();
+}
+
+
+// Construct legend for map
+function buildMapLegend(){
+  var legend = document.getElementById('legend');
+  var iconType;
+  var icon;
+  var div;
+
+  for (var item in icons) {
+    iconType = item.iconType;
+    icon = item.icon;
+    div = document.createElement('div');
+    div.innerHTML = '<img src="' + icons[item].icon + '"> ' + icons[item].iconType;
+    legend.appendChild(div);
+  }
+}
+
+function initKO(){
+
+  console.log(window.allMarkers);
+  var markerViewModel = {
+    title: ko.observable('No Title'),
+    content: ko.observable(''),
+    markers: ko.observableArray(window.allMarkers)
+  };
+  ko.applyBindings(markerViewModel, document.getElementById('info-content'));
+}
+
+
+
+/* After School Program Data
+ * ref: http://nycdoe.pediacities.com/dataset/after-school-upk-programs/resource/1e042827-d69d-48f0-a2ba-1df13c3c307e
+ */
+mapData.afterSchoolProgram = function(){
+  var aspData;
+  var data = {
+    resource_id: '1e042827-d69d-48f0-a2ba-1df13c3c307e' // the resource id to the dataset
+  };
+
+  $.ajax({
+    url: 'http://nycdoe.pediacities.com/api/action/datastore_search',
+    data: data,
+    dataType: 'json',
+    success: function(data) {
+      // Grab records from returned ajax data
+      aspData = data.result.records;
+      // console.log(aspData);
+      // Create a marker for each record
+      var i = aspData.length - 1;
+      var debug = 3;
+      console.log('After School Program Data');
+      for (debug; debug >= 0; debug--) {
+        // Construct Markers to be placed on the map.
+        console.log(aspData[debug]);
+      }
+      // for (i - 1; i >= 0; i--) {
+      //   createMarker(aspData[i], google, 'afterSchoolProgram');
+      // }
+
+      // console.log(window.allMarkers);
+    },
+    "error": {
+      "message": "Access denied",
+      "__type": "Authorization Error"
+    }
+  });
+};
+
+
+/* NYC Museum and Galleries
+* ref. http://nycdoe.pediacities.com/dataset/museums-and-galleries
+*/
+mapData.theArts = function(){
+  $.ajax({
+    url: '../datasets/museums-and-galleries-results.json',
+    data: data,
+    dataType: 'json',
+    success: function(data) {
+      var i = data.length - 1;
+      var debug = 3;
+      console.log('NYC Museum and Galleries');
+      for (debug; debug >= 0; debug--) {
+        // Construct Markers to be placed on the map.
+        // title, content, latitude, longitude, type
+        console.log(data[debug]);
+        console.log(data[debug]['@type']);
+      }
+    },
+    "error": {
+      "message": "Access denied",
+      "__type": "Authorization Error"
+    }
+  });
+};
+
+/* NYC Parks
+ * ref. http://nycdoe.pediacities.com/dataset/map-of-parks
+ */
+mapData.nycParks = function(){
   var layer = new google.maps.FusionTablesLayer({
     map: map,
     heatmap: { enabled: false },
@@ -35,81 +351,7 @@ function initMap() {
     }
   });
   layer.setMap(map);
-
-  /* NYC Museum and Galleries
-   * ref. http://nycdoe.pediacities.com/dataset/museums-and-galleries
-   */
-  $.getJSON('../datasets/museums-and-galleries-results.json', function(data){
-    var i = data.length - 1;
-    for (i; i >= 0; i--) {
-      // Construct Markers to be placed on the map.
-      createMarker(data[i], google, infowindow, allMarkers);
-    }
-  });
+};
 
 
-  // After School Program Data
-  var aspData;
-  // Location of all After School Programs.
-  // Last updated September 30, 2013
-  // ref: http://nycdoe.pediacities.com/dataset/after-school-upk-programs/resource/1e042827-d69d-48f0-a2ba-1df13c3c307e
-  var data = {
-    resource_id: '1e042827-d69d-48f0-a2ba-1df13c3c307e' // the resource id
-    // limit: 5, // get 5 results
-    // q: '*' // query for 'jon vhes'
-  };
-
-  $.ajax({
-    url: 'http://nycdoe.pediacities.com/api/action/datastore_search',
-    data: data,
-    dataType: 'jsonp',
-    success: function(data) {
-      // Grab records from returned ajax data
-      aspData = data.result.records;
-      // Create a marker for each record
-      var i = aspData.length - 1;
-      console.log(allMarkers.length);
-      for (i - 1; i >= 0; i--) {
-        createMarker(aspData[i], google, infowindow, allMarkers);
-      }
-      console.log(allMarkers.length);
-    },
-    "error": {
-      "message": "Access denied",
-      "__type": "Authorization Error"
-    }
-  });
-
-  // Add bindings for infowindow content.
-}
-var markerViewModel = {
-  title: ko.observable('No Title'),
-  content: ko.observable('Lorem ipsum Id aliqua incididunt laborum amet dolor ex voluptate.')
-}
-ko.applyBindings(markerViewModel, document.getElementById('info-content'));
-
-/* This function constructs markers to be used on the map.
- */
- var infoWindowTitle;
-function createMarker(obj, google, infowindow, allMarkers){
-  if(obj.latitude && obj.longitude){
-    obj.marker = new google.maps.Marker({
-      position: {lat: Number(obj.latitude), lng: Number(obj.longitude)},
-      map: map,
-      title: obj.name
-    });
-    allMarkers.push(obj.marker);
-    // Add infowindow on click to the marker
-
-    obj.marker.addListener('click', function() {
-      console.log(obj);
-      infoWindowTitle = obj.name;
-      console.log(infowindow);
-      markerViewModel.title('infoWindowTitle');
-      infowindow.content = $('#info-content').html();
-      infowindow.open(map, obj.marker);
-    });
-
-  }
-  return allMarkers;
-}
+}());

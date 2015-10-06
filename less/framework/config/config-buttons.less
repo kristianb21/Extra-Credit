@@ -67,7 +67,7 @@ FRAMEWORK - BUTTONS - Buttons Styling
 
 // PARAMS: @classname, @height, @font-size
 .mix-btn-framework-size(small, @btn-small-height, @btn-small-txt-size);
-.mix-btn-framework-size(large, @btn-large-txt-size, @btn-large-txt-size);
+//.mix-btn-framework-size(large, @btn-large-txt-size, @btn-large-txt-size);
 
 //---------------------------------------//
 //---------04. ALTERNATE COLORS----------//
@@ -86,7 +86,7 @@ FRAMEWORK - BUTTONS - Buttons Styling
 .btn-mixin-additions() {
   .btn-shadow;
   font-weight: 300;
-  &:hover { .mix-inset-shadow(0px, 0px, 5px, 0px, rgba(0,0,0,0.5)); }
+  &:hover { .mix-inset-shadow(0px, 0px, 5px, 0px, rgba(0,0,0,0.25)); }
 }
 
 //---------------------------------------//
@@ -109,6 +109,6 @@ FRAMEWORK - BUTTONS - Buttons Styling
 //---------------------------------------//
 
 // PARAMS: @classname, @height, @font-size
-.mix-btn-framework-icon-only(only-small, 30px, 120%);
-.mix-btn-framework-icon-only(only, 50px, 160%);
-.mix-btn-framework-icon-only(only-large, 60px, 180%);
+// .mix-btn-framework-icon-only(only-small, 30px, 120%);
+// .mix-btn-framework-icon-only(only, 50px, 160%);
+// .mix-btn-framework-icon-only(only-large, 60px, 180%);

@@ -29,14 +29,6 @@ var htmlDest = '_site/';
 // JS PATHS
 var jsPaths = [
   'js/*.js'
-  // '_site/js/*/*/*.js',
-  // '_site/js/*/*/*/*.js'
-];
-// JS files to delete to get site ready for production
-var jsFilesToDelete = [
-  '_site/js/site_globals.js',
-  '_site/js/site_jqueryfn.js',
-  '_site/js/site_scripts.js'
 ];
 
 // JS DESTINATION
@@ -47,28 +39,6 @@ gulp.task('lint', function() {
   return gulp.src(jsPaths)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
-});
-
-// Concatenate & Minify JS -----------------------------------------------------
-// requires: gulp-concat, gulp-uglify, gulp-rename
-gulp.task('scripts', function() {
-  return gulp.src(jsPaths)
-    .pipe(concat('all.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest(jsDest));
-});
-// Scripts with Dev Options, TODO: Run tasks with flags to combine both task functions.
-// gulp.task('scripts', function() {
-//   return gulp.src(jsPaths)
-//     .pipe(concat('all.js'))
-//     .pipe(gulp.dest(jsDest))
-//     .pipe(rename('all.min.js'))
-//     .pipe(uglify())
-//     .pipe(gulp.dest(jsDest));
-// });
-
-gulp.task('cleanjs', function() {
-  return del(jsFilesToDelete);
 });
 
 // Compile Our less ------------------------------------------------------------
@@ -87,6 +57,36 @@ gulp.task('less', function () {
 gulp.task('watch', function() {
   gulp.watch('js/*.js', ['lint', 'scripts']);
   gulp.watch('less/**/*.less', ['less']);
+});
+
+
+// Concatenate & Minify JS -----------------------------------------------------
+// requires: gulp-concat, gulp-uglify, gulp-rename
+gulp.task('scripts', function() {
+  return gulp.src(jsPaths)
+    .pipe(concat('all.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsDest));
+});
+// Scripts with Dev Options, TODO: Run tasks with flags to
+// combine both task functions.
+// gulp.task('scripts', function() {
+//   return gulp.src(jsPaths)
+//     .pipe(concat('all.js'))
+//     .pipe(gulp.dest(jsDest))
+//     .pipe(rename('all.min.js'))
+//     .pipe(uglify())
+//     .pipe(gulp.dest(jsDest));
+// });
+
+gulp.task('cleanjs', function() {
+  return del(jsFilesToDelete);
+});
+
+// Watch Files For Changes
+gulp.task('watch', function() {
+  // gulp.watch(paths, tasks)
+  gulp.watch('js/*.js', ['lint']);
 });
 
 // Minify HTML -----------------------------------------------------------------

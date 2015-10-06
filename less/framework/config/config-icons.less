@@ -23,7 +23,7 @@ FRAMEWORK - ICONS - Icon Font Mixins
 /*dsjfklsjdflksd*/
 
 // DEFUALT SIZES (you can set additional below)
-@icon-font-size-small: @icon-font-size * .9;
+@icon-font-size-small: @icon-font-size * .8;
 @icon-font-size: 160%;
 @icon-font-size-med: @icon-font-size * 1.2;
 @icon-font-size-large: @icon-font-size * 1.4;
@@ -61,7 +61,7 @@ FRAMEWORK - ICONS - Icon Font Mixins
 // PARAMS: Class Name (no "i-"), Icon Size, Position (before/after), Margin On Side (Defualt: @base-smallest)
 
 // BEFORE
-.mix-icon-size(small, @icon-font-size-small, before);
+.mix-icon-size(small, @icon-font-size-small, before, @base-smaller);
 .mix-icon-size(reg, @icon-font-size, before);
 .mix-icon-size(med, @icon-font-size-med, before);
 .mix-icon-size(large, @icon-font-size-large, before);
@@ -94,6 +94,13 @@ FRAMEWORK - ICONS - Icon Font Mixins
 .mix-icon(@name, @color: inherit, @size: @icon-font-size, @font-align: middle) when (@name = 'caret-right') {
   .i-defaults;
   content: "b"; // This should be set to the value for the icon
+  font-size: @size;
+  color: @color;
+  vertical-align: @font-align;
+}
+.mix-icon(@name, @color: inherit, @size: @icon-font-size, @font-align: middle) when (@name = 'caret-left') {
+  .i-defaults;
+  content: "a"; // This should be set to the value for the icon
   font-size: @size;
   color: @color;
   vertical-align: @font-align;
@@ -136,6 +143,13 @@ FRAMEWORK - ICONS - Icon Font Mixins
 .mix-icon(@name, @color: inherit, @size: @icon-font-size, @font-align: middle) when (@name = 'dot-minus') {
   .i-defaults;
   content: "o"; // This should be set to the value for the icon
+  font-size: @size;
+  color: @color;
+  vertical-align: @font-align;
+}
+.mix-icon(@name, @color: inherit, @size: @icon-font-size, @font-align: middle) when (@name = 'dot-info') {
+  .i-defaults;
+  content: "l"; // This should be set to the value for the icon
   font-size: @size;
   color: @color;
   vertical-align: @font-align;

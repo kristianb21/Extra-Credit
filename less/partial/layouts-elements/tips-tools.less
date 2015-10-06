@@ -6,7 +6,7 @@ PARTIAL - TIPS TOOLS
 
 .box-tips, .box-tools {
   position: relative;
-} 
+}
 .box-tips {
   &:before {
     .mix-icon("question", @color-blue-50, 100px);
@@ -50,6 +50,14 @@ PARTIAL - TIPS TOOLS
   }
 }
 
+.file-type {
+  &:extend(.t-small);
+  color: @color-black-50;
+  // font-style: italic;
+  padding-left: @base-small;
+  font-weight: 300;
+}
+
 //----------------------------------------------//
 //------------------IN CONTENT------------------//
 //----------------------------------------------//
@@ -65,6 +73,13 @@ PARTIAL - TIPS TOOLS
     z-index: -1;
     position: absolute;
   }
+  @media @break-primary {
+    &:first-of-type { 
+      border-top: none; 
+      margin-top: 0;  
+      padding-top: 0;
+    }
+  }
   &.tool {
     &:before {
       .mix-icon("tools", darken(@color-cream, 10%), 70px);
@@ -72,16 +87,16 @@ PARTIAL - TIPS TOOLS
       right: 0;
     }
   }
-  // &.tip {
-  //   &:before {
-  //     .mix-icon("dot-question", darken(@color-cream, 10%), 60px);
-  //     position: absolute;
-  //     top: 36px;
-  //     right: 0;
-  //     z-index: -1;
-  //   }
-  // }
   .file-type {
     color: @color-orange;
+    padding-left: 0;
+    margin-top: @base-smaller;
+  }
+  p {
+    margin-bottom: @base-small;
+  }
+  .tool-source {
+    color: @color-orange;
+    margin-top: -@base-smaller;
   }
 }

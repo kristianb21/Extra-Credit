@@ -1,16 +1,28 @@
 ---
 layout: page
-aside: true
 tpl_id: home
 title: >
-  Identification Documents: Effective Application Strategies
-subtitle: >
-  Identification Documents: Effective Application Strategies
+  Extra Credit
 ---
 
 <div id="map"></div>
-<div id="sticky">TESTING!</div>
-<div id="info-content">
-  <div><strong data-bind="text:title"></strong></div>
-  <div data-bind="text:content"></div>
+<div id="sticky" class="panel">
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+
+  <div id="info-content" class="inner-sticky">
+    <div><strong data-bind="text:title"></strong></div>
+    <div data-bind="text: markers().length"></div>
+    <div data-bind="text:content"></div>
+    <ul data-bind="foreach: $root.markers">
+      <li><div data-bind="text: title"></div></li>
+    </ul>
+  </div>
+  <div id="legend">
+    Extra Credit - Legend
+  </div>
+</div>
+
+<div>
+  List of Extra Credit Activities
+  <div id="map-items"></div>
 </div>

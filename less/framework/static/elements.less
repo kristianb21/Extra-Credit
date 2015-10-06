@@ -24,14 +24,14 @@ GLOBAL - ELEMENTS - Common elements (Borders, Boxes, Etc)
 //---------------------------------------//
 
 .mix-border-class(@class-name, @border-width) {
-  .b-tp-@{class-name} {
+  .b-top-@{class-name} {
     border-top-width: @border-width;
     border-top-style: solid;
     border-top-color: @color-black-15;
     &.dotted { &:extend(.dotted); }
     &.dashed { &:extend(.dashed); }
   }
-  .b-bt-@{class-name} {
+  .b-btm-@{class-name} {
     border-bottom-width: @border-width;
     border-bottom-style: solid;
     border-bottom-color: @color-black-15;
@@ -187,7 +187,7 @@ GLOBAL - ELEMENTS - Common elements (Borders, Boxes, Etc)
 //---TABLE NO STYLING----//
 
 // NOTE: Based on general.less (table)
- 
+
 .table-plain {
   border: none;
   border-collapse: collapse;
@@ -220,28 +220,40 @@ GLOBAL - ELEMENTS - Common elements (Borders, Boxes, Etc)
 //-------------06. CALLOUTS--------------//
 //---------------------------------------//
 
-.callout {
-  width: @callout-width;
-	color: @callout-color;
-	border: @callout-border;
-	background-color: @color-black-5;
-	padding:@callout-padding;
-  margin-bottom: @base;
-  display: block;
-}
+// .callout {
+//   width: @callout-width;
+// 	color: @callout-color;
+// 	border: @callout-border;
+// 	background-color: @color-black-5;
+// 	padding:@callout-padding;
+//   margin-bottom: @base;
+//   display: block;
+// }
 
 //---------------------------------------//
 //-------------07. TOOLTIP---------------//
 //---------------------------------------//
 
 // TOOLTIP WRAP
-.tooltip-wrap { position: relative; }
+.tooltip-wrap { position: relative; .mix-inline-block(); }
+// Hide hover content
+.toggle-hover-content {
+  display: none;
+}
+.active {
+  >.toggle-hover-content {
+    display: block;
+  }
+}
+
+
 
 // TOOLTIP CLASS
 .mix-tooltip(@toggle-tooltip);
 .mix-tooltip(@toggle: "off") when (@toggle = "on") {
   .tooltip {
     position: absolute;
+    z-index: 1;
     padding: @tooltip-padding;
     border-radius: @tooltip-radius;
     width: @tooltip-width;
@@ -291,4 +303,4 @@ GLOBAL - ELEMENTS - Common elements (Borders, Boxes, Etc)
       }
     }
   }
-} 
+}

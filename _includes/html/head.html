@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-{% comment %}<meta http-equiv="cache-control" content="Private" />{% endcomment %}
 <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
 <!-- Place favicon.ico in the root directory -->
@@ -26,12 +25,77 @@
 <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <!-- STYLES -->
-<link rel="stylesheet" href="{{relative-baseurl}}css/styles.css">
+<link rel="stylesheet" href="/css/styles.css">
 <!-- JS -->
-<script src="{{relative-baseurl}}js/lib/modernizr/modernizr-2.8.3.min.js"></script>
-<script src="{{relative-baseurl}}js/lib/jquery/jquery-1.11.3.js"></script>
 <style type="text/css">
   html, body { height: 100%; margin: 0; padding: 0; z-index: 0;}
+  /* MAP -------------------------------------------------------------------- */
   #map { height: 100%; }
-  #sticky { position: fixed; background: green; height: 100px; width: 200px; color: white; z-index: 1; top: 100px;}
+
+  /* LEGEND ----------------------------------------------------------------- */
+  #legend {
+    background: white;
+    padding: 10px;
+  }
+  /* LEFT PANEL ----------------------------------------------------------------- */
+#sticky {
+  background-color: #333;
+  position: fixed;
+  height: 100%;
+  width: 320px;
+  color: white;
+  z-index: 1;
+  top: 100px;
+}
+/* SEARCH INPUT ----------------------------------------------------------------- */
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
 </style>
+
+<script>
+  // This example adds a search box to a map, using the Google Place Autocomplete
+  // feature. People can enter geographical searches. The search box will return a
+  // pick list containing a mix of places and predicted search terms.
+
+
+</script>

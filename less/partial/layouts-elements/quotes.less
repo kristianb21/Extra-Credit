@@ -4,6 +4,10 @@ PARTIAL - QUOTES
 
 
 //---------QUOTES---------//
+
+// Hang quotes
+.quote-hang { margin-left: -.25em; }
+
 .quote-wrap {
   margin: @base-element-margin 0;
 }
@@ -58,18 +62,23 @@ PARTIAL - QUOTES
     .quote-wrap {
       border-top: 1px solid @color-cream-dark;
       padding-top: @base-element-margin;
-      &:first-of-type { 
-        @media @break-primary { 
-          border-top: none; 
+      &.first {
+        border: none;
+        padding-top: 0;
+        margin-top: 0;
+      }
+      &:first-of-type {
+        @media @break-primary {
+          border-top: none;
           margin-top: 0;
           padding-top: 0;
-        } 
+        }
       }
     }
     .quote-body {
       font-size: @type-base;
       line-height: @type-base-lh + 2px;
-      color: @color-orange;
+      color: darken(@color-orange, 10%);
     }
     .quote-author {
       font-size: @type-base;
@@ -77,7 +86,7 @@ PARTIAL - QUOTES
       color: @color-orange;
       font-style: italic;
     }
-    .quote-image-wrap { 
+    .quote-image-wrap {
       border-color: @color-orange;
     }
   }

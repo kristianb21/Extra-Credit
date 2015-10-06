@@ -6,10 +6,9 @@ GLOBAL - Headers
 @logo-width: 134px;
 @logo-pad-lr: 20px;
 @logo-height: 50px; // Approx for other content to move down by
-// OVERALL
-// .site-header-wrap-outer {
-//   border-bottom: 1px solid lighten(@color-blue-darker, 10%);
-// }
+
+//--------MAIN HEADER----------//
+
 .section-header-wrap {
   background-color: @color-blue;
   //border-bottom: 1px solid darken(@color-blue, 5%); // Combined to make a shadow
@@ -46,7 +45,8 @@ GLOBAL - Headers
   }
 }
 
-// OVERALL
+//---------SITE LOGO-----------//
+
 .logo {
   float: left;
   background-color: darken(@color-blue, 10%);
@@ -60,20 +60,76 @@ GLOBAL - Headers
   padding-bottom: 11px;
   margin-left: -@logo-pad-lr;
   a { color: @color-yellow; }
+  @media @mobile {
+    background-color: darken(@color-blue, 6%);
+  }
 }
 .logo-id {
   font-weight: bold;
   color: white;
 }
+
+//---------SITE LOGO-----------//
+
+// Header Search Container
+.search-wrap { float: right; }
+// Search Inner Container
+.tiptue-search-form {
+  padding: 10px 0;
+  width: 200px;
+  font-style: italic;
+  position: relative;
+  float: right;
+  // Form
+  input {
+    .mix-text-input(26px, white, @color-black-65, @type-small, 2px, lighten(@color-blue, 50%), 15px, 10px);
+  }
+  // ICON
+  &:before {
+    .mix-icon('search', @color-blue, @icon-font-size, @font-align: middle);
+    position: absolute;
+    top: 14px;
+    right: 12px;
+    z-index: 1;
+  }
+
+  // Mobile
+  @media @break-primary {
+    width: 99%;
+    float: none;
+    input { height: 34px; }
+    &:before { top: 18px; right: 24px; }
+  }
+  // When used on search page
+  &.search-page {
+    float: none;
+    width: 100%;
+    max-width: 400px;
+    input {
+      height: 32px;
+      border-color: lighten(@color-blue-darker, 30%);
+      border-width: 1px;
+    }
+    &:before { top: 16px; }
+  }
+}
+
+
+//---------MOBILE HEADER-----------//
+
+// Outer Container
 .mobile-trigger-wrap {
   .mix-inline-block();
   @media @break-primary {
     float: right;
   }
+  &.active {
+    .mobile-btn {
+      background-color: @color-blue-dark;
+    }
+  }
 }
-.mobile-btn {
-  padding: 10px;
-}
+// Toggle Button Wraps
 .mobile-hidden-wrap {
   @media @break-primary {
     width: 320px;
@@ -83,55 +139,37 @@ GLOBAL - Headers
     right: 0;
     width: 100%;
     z-index: 9997;
-    background-color: lighten(@color-blue, 2%);
-    border-top: 1px solid darken(@color-blue, 5%);
+    //background-color: lighten(@color-blue, 2%);
+    background-color: darken(@color-blue, 8%);
+    border-top: 1px solid @color-blue-dark;
     .mix-shadow(0px, 1px, 2px, 0px, rgba(0,0,0,0.35));
   }
 }
-// SEARCH FORM
-.search-wrap {
-  float: right;
-}
-.tiptue-search-form {
-  padding: 10px 0;
-  width: 200px;
-  font-style: italic;
-  position: relative;
-  float: right;
-  input {
-    .mix-text-input(26px, @color-black-65, @type-small, 2px, lighten(@color-blue, 50%), 15px, 10px);
-  }
-  &:before {
-    .mix-icon('search', @color-blue, @icon-font-size, @font-align: middle);
-    position: absolute;
-    top: 14px;
-    right: 20px;
-    z-index: 1;
+// Search Wrap Only
+.mobile-search-wrap {
+  @media @break-primary {
+    padding: @base-smaller @site-margin;
   }
 }
-
-//---------MOBILE HEADER-----------//
-
+// Inner Toggle Buttons
 .mobile-btn {
   display: none;
+  border-left: 1px solid @color-blue-dark;
+  text-align: center;
+  padding: 10px 14px;
+  &:hover {
+    background-color: @color-blue-dark;
+  }
+  &:before {
+    margin: 0;
+  }
   @media @break-primary {
     .mix-inline-block();
   }
 }
-
-
-// .header-mobile-toggle-wrap {
-//   display: none;
-//   @media @break-primary {
-//     .mix-inline-block();
-//   }
-// }
-
-// .header-mobile-wrap {
-//   @media @break-primary {
-//     display: none;
-//   }
-// }
-
+// Search Only
+.mobile-search-btn {
+  border-right: 1px solid @color-blue-dark;
+}
 
 

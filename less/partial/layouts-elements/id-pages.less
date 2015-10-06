@@ -13,6 +13,10 @@ PARTIAL - STEPS
     margin:0 0 @base-smaller 55px; 
     padding: 18px 0px 5px 20px; 
     list-style:none; 
+    @media @break-primary {
+      margin-left: 34px;
+      padding-top: 11px;
+    }
     &:before {
       content:counter(li);
       counter-increment:li; /* Increment the counter by 1 */
@@ -31,6 +35,14 @@ PARTIAL - STEPS
       text-align: left;
       vertical-align: middle;
       .mix-circle(56px, @color-blue, white);
+      @media @break-primary {
+        height: 40px;
+        width: 40px;
+        .mix-border-radius(40px);
+        font-size: 18px;
+        line-height: 34px;
+        left: -34px;
+      }
     }
     //-------NESTED LISTS-----//
     ul {
@@ -78,6 +90,20 @@ PARTIAL - STEPS
   li {
     margin-bottom:  @base-small;
     background-position: left 9px;
+  }
+}
+.list-strong {
+  li { 
+    font-weight: bold;
+    color: @color-blue-dark;
+    margin-bottom:  @base-small;
+    background-position: left 9px;
+    li {
+      font-weight: normal;
+      color: @color-black-75;
+      font-size: @type-small;
+      margin: @base-smallest;
+    }
   }
 }
 

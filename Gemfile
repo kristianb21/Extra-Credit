@@ -7,6 +7,8 @@ gem 'jekyll-paginate', '~> 1.0'
 gem 'jekyll-gist', '~> 1.0'
 gem 'jekyll-coffeescript', '~> 1.0'
 gem 'octopress-hooks'
+gem "sass", "~> 3.4.0"
+gem 'foundation', '~> 1.0.4'
 
 platform :ruby, :mswin, :mingw do
   gem 'pygments.rb', '~> 0.6.0'

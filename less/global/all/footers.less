@@ -2,187 +2,140 @@
 GLOBAL - Footers
 =========================================================================== */
 
+//---- FOOTER ----//
 
 .footer {
-  background-color: @color-blue;
-  padding-top: @base-small;
-  padding-bottom: @base-small;
+  background-color: @color-blue-dark;
+  padding-top: @base;
+  padding-bottom: @base;
   color: @color-blue-50;
+  position: relative;
+  z-index: 9997;
+}
+
+.copyright { color: lighten(@color-blue, 30%); }
+
+.footer-top {
+  border-bottom: 1px solid darken(@color-blue-dark, 5%);
+  padding-bottom: @base;
+  margin-bottom: @base;
 }
 
 //---- SAMHSA FOOTER ----//
 
-// /*--Site/Global--*/
-// @site-margin: 4%;
-// /*--Box Padding--*/
-// @box-pad: 20px;
-// /*--Buttons--*/
-// @btn-hover-bg: #BA7820;
-// @btn-bg: @color-orange;
-// /*--Type--*/
-// @fontfamily: 'Open Sans', sans-serif;
-// @font-light: 300;
-// @font-semibold: 600;
-// @font-body-color: @color-gray-90;
 
+/*--FOOTER--*/
+.samhsa-footer-top {
+  font-size: @type-small;
+  font-weight: 300;
+}
+.samhsa-footer-btm {
+  background-color: #8a180e;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  p { 
+    color: lighten(@color-red, 60%); 
+    margin-bottom: 0; 
+    margin-top: 10px;
+  }
+  font-size: @type-small;
+}
+.samhsa-social {
+  overflow: hidden;
+  ul#samhsa-social {
+    clear: none;
+    float: left;
+    height: 40px;
+    margin: 0;
+    width: 100%;
+    a {
+      display:block;
+      height: 40px;
+    }
+    li {
+      float: left;
+      display: block;
+      width: 46px;
+    }
+  }
+}
+.footer-links {
+  width: 31.2%;
+  margin-right: 3%;
+  float: left;
+  li {
+    list-style: none;
+    color: white;
+    margin-bottom: 5px;
+    a { color: lighten(@color-blue, 40%); }
+  }
+}
+.footer-links:last-of-type { margin-right: 0; }
+.samhsa-email-blog-btn-wrap { padding: 20px 0; }
+.samhsa-buttons, .footer-img-links-wrap {
+  width: 50%;
+  float: left;
+  a { display: block;}
+  img:hover { opacity: .8; }
+  @media @mobile {
+    width: 100%;
+    float: none;
+  }
+}
+.footer-img-links { padding-left: 20px; }
+.footer-img { padding-bottom: 15px; }
+.samhsa-btn img {
+  padding-bottom: 10px;
+  width: 80%;
+}
+.samhsa-footer-bottom {
+  p { margin-bottom: 0; }
+}
+.footer-bottom-left {
+  float: left;
+  width: 60%;
+}
+.footer-bottom-right {
+  float: right;
+  width: 37%;
+  padding-left: 3%;
+  img {
+    float: right;
+    @media @mobile { 
+      float: none; 
+      padding-top: 20px; 
+    } 
+  }
+}
+.footer-bottom-left, .footer-bottom-right {
+  @media @mobile {
+    width: 100%;
+    float: none;
+  }
+}
 
-
-// /*--Colors--*/
-// @color-link: #039;
-// @color-green: #858845;
-// @color-green-80: #9DA072;
-// @color-green-dark: #454A25;
-// @color-blue: #577786;
-// @color-blue-10: #F2F7F9;
-// @color-blue-25: #D5DDE1;
-// @color-blue-40: #BCC9CF;
-// @color-blue-50: #ABBBC2;
-// @color-blue-80: #79929E;
-// @color-blue-dark: #295E7C;
-// @color-blue-darker: #253C44;
-// @color-yellow: #C2A204;
-// @color-orange: #C47B12;
-// @color-orange-30: #EFD0AB;
-// @color-orange-50: #E1BD88;
-// @color-orange-80: #D09541;
-// @color-orange-dark: #7B3E19;
-// @color-orange-darker: #66341B;
-// @color-red: #991B1E;
-// @color-tan-50: #FCF9EE;
-// @color-tan: #EEE9D6;
-// @color-white: #FFFFFF;
-// @color-black: #000000;
-// @color-gray-90: #191919;
-// @color-gray-80: #333333;
-// @color-gray-70: #4C4C4C;
-// @color-gray-60: #666666;
-// @color-gray-50: #808080;
-// @color-gray-40: #999999;
-// @color-gray-30: #B2B2B2;
-// @color-gray-25: #BFBFBF;
-// @color-gray-20: #CCCCCC;
-// @color-gray-15: #D9D9D9;
-// @color-gray-10: #E5E5E5;
-// @color-gray-7: #EDEDED;
-// @color-gray-5: #F2F2F2;
-// @color-gray-2: #FAFAFA;
-// /*--FOOTER--*/
-// .section-footnotes {
-//     background-color: @color-orange-50;
-//     padding-top: 40px;
-//     padding-bottom: 40px;
-//   }
-//   .samhsa-footer {
-//     background-color: #8a180e;
-//     padding-top: 15px;
-//     padding-bottom: 15px;
-//   }
-// .section-footer-links {
-//     background-color: #334b56;
-//     padding-top: 40px;
-//     padding-bottom: 40px;
-//   }
-// .section-wrap {
-//   clear: both;
-//   &:before {
-//     content:"";
-//     display:table;
-//   }
-//   &:after {
-//     content:"";
-//     display:table;
-//     clear:both;
-//   }
-// }
-// .col {
-//   border:0px solid rgba(0,0,0,0);
-//   float:left;
-//   -webkit-box-sizing:border-box;
-//   -moz-box-sizing:border-box;
-//   box-sizing:border-box;
-//   -moz-background-clip:padding-box !important;
-//   -webkit-background-clip:padding-box !important;
-//   background-clip:padding-box !important;
-// }
-// .section-footer-links {
-//   .samhsa-social {
-//     overflow: hidden;
-//     ul#samhsa-social {
-//       clear: none;
-//       float: left;
-//       height: 40px;
-//       margin: 0;
-//       width: 100%;
-//       a {
-//         display:block;
-//         height: 40px;
-//       }
-//       li {
-//         float: left;
-//         display: block;
-//         width: 46px;
-//       }
-//     }
-//   }
-// }
-
-// .footer-links {
-//   width: 31.2%;
-//   margin-right: 3%;
-//   float: left;
-//   li {
-//     list-style: none;
-//     color: white;
-//     margin-bottom: 5px;
-//     a {
-//       color: white;
-//     }
-//   }
-// }
-// .footer-links:last-of-type {
-//   margin-right: 0;
-// }
-// .samhsa-email-blog-btn-wrap {
-//   padding: 20px 0;
-// }
-// .samhsa-buttons, .footer-img-links-wrap {
-//   width: 50%;
-//   float: left;
-//   a {
-//     display: block;
-//   }
-//   img {
-//     display: block;
-//     max-width: 100%;
-//     height: auto;
-//     &:hover {
-//       opacity: .8;
-//     }
-//   }
-// }
-// .footer-img-links {
-//   padding-left: 20px;
-// }
-// .footer-img {
-//   padding-bottom: 15px;
-// }
-// .samhsa-btn {
-//   padding-bottom: 10px;
-// }
-// .samhsa-footer-bottom {
-//   p {
-//     margin-bottom: 0;
-//   }
-// }
-// .footer-bottom-left {
-//   float: left;
-//   width: 60%;
-// }
-// .footer-bottom-right {
-//   float: right;
-//   width: 37%;
-//   padding-left: 3%;
-//   img {
-//     float: right;
-//   }
-// }
+// FOOTER ICONS
+ul#samhsa-social li#blog {
+  background: url("../images/samhsa/samhsa-social.png") repeat scroll -151px 0 rgba(0, 0, 0, 0);
+}
+ul#samhsa-social li#blog:hover {
+  background-position: -151px -42px;
+}
+ul#samhsa-social li#youtube {
+  background: url("../images/samhsa/samhsa-social.png") repeat scroll -101px 0 rgba(0, 0, 0, 0);
+}
+ul#samhsa-social li#youtube:hover {
+  background-position: -101px -42px;
+}
+ul#samhsa-social li#twitter {
+  background: url("../images/samhsa/samhsa-social.png") repeat scroll -51px 0 rgba(0, 0, 0, 0);
+}
+ul#samhsa-social li#twitter:hover {
+  background-position: -51px -42px;
+}
+ul#samhsa-social li#facebook {
+  background: url("../images/samhsa/samhsa-social.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+ul#samhsa-social li#facebook:hover {
+  background-position: 0px -42px;
+}

@@ -5,7 +5,7 @@
 
 //------INPUT (Textfield)------//
 
-.mix-text-input(@height, @font-color, @font-size: @type-base, @border-width: 0, @border-color: white, @border-radius: 0, @indent: 6px) {
+.mix-text-input(@height, @bg-color: white, @font-color, @font-size: @type-base, @border-width: 0, @border-color: white, @border-radius: 0, @indent: 6px) {
 	-webkit-appearance: none;	// ios and webkit
 	-moz-appearance: none;		// Mozilla
 	appearance: none;   			// IE 10
@@ -15,7 +15,7 @@
 	width: 98%;
   max-width: 100%; // Protect Against text area resizing
 	height: @height;
-	background: white;
+	background: @bg-color;
 	border-width: @border-width;
 	border-style: solid;
 	border-color: @border-color;
@@ -25,6 +25,7 @@
 	line-height: 1.3em;
 	color: @font-color;
 	text-indent: @indent;
+  outline: 0; // Remove outline
 }
 
 //------INPUT (Button Defualt Hover)------//
