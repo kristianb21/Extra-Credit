@@ -135,7 +135,7 @@ var Location = function(title, content, latitude, longitude, group) {
   // By default, each location will not be on the map.
   this.onMap = false;
   // Create a unique ID for each location
-  this.locationID = this.latitude.toString().replace('-','0') + this.longitude.toString().replace('-','0');
+  this.locationID = (this.latitude+"").toString().replace('-','0') + (this.longitude+"").toString().replace('-','0');
 };
 
 /* This function constructs markers to be used on the map.
@@ -149,7 +149,7 @@ Location.prototype.createMarker = function(mapIcon){
     icon: icons[mapIcon].icon
   });
 
-  markers.push(this.marker);
+  markers.push(this);
 
 };
 
@@ -176,41 +176,42 @@ Location.prototype.clickFunc = function(){
   this.marker.addListener('click', function() {
     // TODO
     // Update InfoWindow with this marker's info
+    console.log(this);
   });
 };
 
-var data = {
-    name: 'Viewing '+markers.length+ ' locations.',
-    markers: markers
-};
-
-var viewModel = ko.mapping.fromJS(data);
-
-var MarkerModel = function(data) {
-    ko.mapping.fromJS(data, {}, this);
-    // used for testing
-    this.nameLength = ko.computed(function() {
-        return this.title().length;
-    }, this);
-};
-
-var mapping = {
-    'markers': {
-        key: function(data) {
-            return ko.utils.unwrapObservable(data.locationID);
-        },
-        create: function(options) {
-            return new MarkerModel(options.data);
-        }
-    },
-    'name': {
-      update: function(options) {
-          return options.data + ' foo!';
-      }
+// Main view model
+function ExtraCreditViewModel() {
+  var self = this;
+  // Editable data
+  // self.markers = ko.observableArray([]);
+  self.markers = ko.observableArray([
+    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'120', getID: function(){console.log('188');}},
+    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'121', getID: function(){console.log('189');}},
+    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'122', getID: function(){console.log('190');}},
+    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'123', getID: function(){console.log('191');}},
+    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'124', getID: function(){console.log('192');}}
+  ]);
+  self.currentFilter = ko.observable();
+  self.markerFilter = ko.computed(function(){
+    if (!self.currentFilter()) {
+      return self.markers();
+    } else {
+      return ko.utils.arrayFilter(self.markers(), function (marker) {
+        return marker.group == self.currentFilter();
+      });
     }
-};
+  }, self);
+  self.filter = function (group) {
+    self.currentFilter(group);
+  };
+  // filteredMarker: ko.observableArray(this.filter),
+  // name: ko.observable('Viewing '+filter.length+ ' locations.')
+}
 
-ko.mapping.fromJS(data, mapping);
+// Activating main view model
+ko.applyBindings(new ExtraCreditViewModel());
+
 
 /* Initializes Google Maps and Creates all the needed markers
 */
@@ -236,7 +237,7 @@ window.initMap = function() {
   mapData.afterSchoolProgram();
   mapData.theArts();
   // mapData.nycParks();
-}
+};
 
 
 // Construct legend for map
@@ -254,19 +255,6 @@ function buildMapLegend(){
     legend.appendChild(div);
   }
 }
-
-function initKO(){
-
-  console.log(window.allMarkers);
-  var markerViewModel = {
-    title: ko.observable('No Title'),
-    content: ko.observable(''),
-    markers: ko.observableArray(window.allMarkers)
-  };
-  ko.applyBindings(markerViewModel, document.getElementById('info-content'));
-}
-
-
 
 /* After School Program Data
  * ref: http://nycdoe.pediacities.com/dataset/after-school-upk-programs/resource/1e042827-d69d-48f0-a2ba-1df13c3c307e
@@ -291,7 +279,11 @@ mapData.afterSchoolProgram = function(){
       console.log('After School Program Data');
       for (debug; debug >= 0; debug--) {
         // Construct Markers to be placed on the map.
+        // title, content, latitude, longitude, group
+
+        markers[debug] = new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longtitude, 'Education Event');
         console.log(aspData[debug]);
+        console.log(markers);
       }
       // for (i - 1; i >= 0; i--) {
       //   createMarker(aspData[i], google, 'afterSchoolProgram');

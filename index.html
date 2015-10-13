@@ -7,14 +7,19 @@ title: >
 
 <div id="map"></div>
 <div id="sticky" class="panel">
-<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-
+{% comment %}<span data-bind="text: name"></span>
+{% endcomment %}
+<input id="pac-input" class="controls" type="text"
+  placeholder="Search Box" data-bind="textInput: currentFilter">
+<button data-bind="click: function() { filter('catgory-1') }">Filter</button>
+<button data-bind="click: filter()">Reset</button>
   <div id="info-content" class="inner-sticky">
-    <div><strong data-bind="text:title"></strong></div>
-    <div data-bind="text: markers().length"></div>
-    <div data-bind="text:content"></div>
-    <ul data-bind="foreach: $root.markers">
-      <li><div data-bind="text: title"></div></li>
+    <ul data-bind="foreach: markerFilter">
+      <li>
+        <div data-bind="text: title"></div>
+        <div data-bind="text: locationID"></div>
+
+      </li>
     </ul>
   </div>
   <div id="legend">
@@ -26,3 +31,4 @@ title: >
   List of Extra Credit Activities
   <div id="map-items"></div>
 </div>
+
