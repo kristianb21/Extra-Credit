@@ -186,19 +186,33 @@ function ExtraCreditViewModel() {
   // Editable data
   // self.markers = ko.observableArray([]);
   self.markers = ko.observableArray([
-    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'120', getID: function(){console.log('188');}},
-    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'121', getID: function(){console.log('189');}},
-    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'122', getID: function(){console.log('190');}},
-    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'123', getID: function(){console.log('191');}},
-    {title:'Lorem ipsum Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'124', getID: function(){console.log('192');}}
+    {title:'Lorem ipsum 123 awesome Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'120', getID: function(){console.log('188');}},
+    {title:'Lorem ipsum 456 birds Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'121', getID: function(){console.log('189');}},
+    {title:'Lorem ipsum 789 rabbit Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'122', getID: function(){console.log('190');}},
+    {title:'Lorem ipsum cats Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'123', getID: function(){console.log('191');}},
+    {title:'Lorem ipsum dogs Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'124', getID: function(){console.log('192');}}
   ]);
   self.currentFilter = ko.observable();
+  self.searchFilter = ko.observable();
   self.markerFilter = ko.computed(function(){
     if (!self.currentFilter()) {
       return self.markers();
     } else {
       return ko.utils.arrayFilter(self.markers(), function (marker) {
         return marker.group == self.currentFilter();
+      });
+    }
+  }, self);
+  self.searchComputedFilter = ko.computed(function(){
+    if (!self.searchFilter()) {
+      return self.markers();
+    } else {
+      var str = self.searchFilter();
+      var regExp = new RegExp(str, 'ig');
+      return ko.utils.arrayFilter(self.markers(), function (marker) {
+        if(marker.title.match(regExp)){
+          return true;
+        }
       });
     }
   }, self);

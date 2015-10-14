@@ -112,11 +112,11 @@
 <div id="sticky" class="panel">
 
 <input id="pac-input" class="controls" type="text"
-  placeholder="Search Box" data-bind="textInput: currentFilter">
+  placeholder="Search Box" data-bind="textInput: searchFilter">
 <button data-bind="click: function() { filter('catgory-1') }">Filter</button>
 <button data-bind="click: filter()">Reset</button>
   <div id="info-content" class="inner-sticky">
-    <ul data-bind="foreach: markerFilter">
+    <ul data-bind="foreach: searchComputedFilter">
       <li>
         <div data-bind="text: title"></div>
         <div data-bind="text: locationID"></div>
