@@ -1,8 +1,3 @@
-(function () {
-console.log(window);
-
-
-var map;
 // This object groups all the AJAX calls or other forms of grabbing data to
 // produce locations.
 var mapData = {};
@@ -136,27 +131,32 @@ var Location = function(title, content, latitude, longitude, group) {
   this.onMap = false;
   // Create a unique ID for each location
   this.locationID = (this.latitude+"").toString().replace('-','0') + (this.longitude+"").toString().replace('-','0');
+  this.createMarker('afterSchoolProgram');
+
 };
 
 /* This function constructs markers to be used on the map.
  */
 Location.prototype.createMarker = function(mapIcon){
-
+  console.log('Running createMarker');
+  // console.log(this);
+  // console.log(map);
   this.marker = new google.maps.Marker({
     position: {lat: Number(this.latitude), lng: Number(this.longitude)},
-    map: map,
     title: this.title,
-    icon: icons[mapIcon].icon
+    icon: icons[mapIcon].icon,
+    visible: true
   });
-
+  console.log(this.marker);
+  this.mapThis();
   markers.push(this);
 
 };
 
 /* This function adds the designated location to the map
  */
-Location.prototype.mapThis = function(mapIcon){
-
+Location.prototype.mapThis = function(){
+  console.log('Running mapThis');
   this.marker.setMap(map);
 
 };
@@ -179,80 +179,6 @@ Location.prototype.clickFunc = function(){
     console.log(this);
   });
 };
-
-// Main view model
-function ExtraCreditViewModel() {
-  var self = this;
-  // Editable data
-  // self.markers = ko.observableArray([]);
-  self.markers = ko.observableArray([
-    {title:'Lorem ipsum 123 awesome Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'120', getID: function(){console.log('188');}},
-    {title:'Lorem ipsum 456 birds Officia dolore dolore aute Duis ullamco.', group:'catgory-1', locationID:'121', getID: function(){console.log('189');}},
-    {title:'Lorem ipsum 789 rabbit Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'122', getID: function(){console.log('190');}},
-    {title:'Lorem ipsum cats Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'123', getID: function(){console.log('191');}},
-    {title:'Lorem ipsum dogs Officia dolore dolore aute Duis ullamco.', group:'catgory-2', locationID:'124', getID: function(){console.log('192');}}
-  ]);
-  self.currentFilter = ko.observable();
-  self.searchFilter = ko.observable();
-  self.markerFilter = ko.computed(function(){
-    if (!self.currentFilter()) {
-      return self.markers();
-    } else {
-      return ko.utils.arrayFilter(self.markers(), function (marker) {
-        return marker.group == self.currentFilter();
-      });
-    }
-  }, self);
-  self.searchComputedFilter = ko.computed(function(){
-    if (!self.searchFilter()) {
-      return self.markers();
-    } else {
-      var str = self.searchFilter();
-      var regExp = new RegExp(str, 'ig');
-      return ko.utils.arrayFilter(self.markers(), function (marker) {
-        if(marker.title.match(regExp)){
-          return true;
-        }
-      });
-    }
-  }, self);
-  self.filter = function (group) {
-    self.currentFilter(group);
-  };
-  // filteredMarker: ko.observableArray(this.filter),
-  // name: ko.observable('Viewing '+filter.length+ ' locations.')
-}
-
-// Activating main view model
-ko.applyBindings(new ExtraCreditViewModel());
-
-
-/* Initializes Google Maps and Creates all the needed markers
-*/
-window.initMap = function() {
-
-  /* Setup Map */
-  map = new google.maps.Map(document.getElementById('map'), {
-    // Start from home
-    center: {lat: 40.835105, lng: -73.945388},
-    zoom: 14
-  });
-
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
-  document.getElementById('legend'));
-
-  // Customize map
-  map.set('styles', styles);
-
-  // Build Map Legend
-  buildMapLegend();
-
-  // Add markers from AJAX calls
-  mapData.afterSchoolProgram();
-  mapData.theArts();
-  // mapData.nycParks();
-};
-
 
 // Construct legend for map
 function buildMapLegend(){
@@ -293,17 +219,11 @@ mapData.afterSchoolProgram = function(){
       console.log('After School Program Data');
       for (debug; debug >= 0; debug--) {
         // Construct Markers to be placed on the map.
-        // title, content, latitude, longitude, group
-
-        markers[debug] = new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longtitude, 'Education Event');
-        console.log(aspData[debug]);
-        console.log(markers);
+        // Location(title, content, latitude, longitude, group)
+        markers[debug] = new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longitude, 'Education Event');
+        // console.log(aspData[debug]);
+        // console.log(markers);
       }
-      // for (i - 1; i >= 0; i--) {
-      //   createMarker(aspData[i], google, 'afterSchoolProgram');
-      // }
-
-      // console.log(window.allMarkers);
     },
     "error": {
       "message": "Access denied",
@@ -360,4 +280,114 @@ mapData.nycParks = function(){
 };
 
 
-}());
+
+// Main view model
+var ExtraCreditViewModel = function() {
+  var self = this;
+  // Editable data
+  console.log(markers);
+  self.markers = ko.observableArray(markers);
+
+  self.currentFilter = ko.observableArray();
+  self.searchFilter = ko.observable();
+  self.categoryFilter = ko.observable();
+  self.setFilter = function (filter) {
+    console.log('Running setFilter');
+    self.currentFilter(filter);
+  };
+
+  self.searchComputedFilter = ko.computed(function(){
+    console.log('Running searchComputedFilter');
+    if(self.currentFilter() == 'search'){
+      // Searching locations by title
+      console.log('True: self.currentFilter == \'search\'');
+      if (!self.searchFilter()) {
+        // Reset Locations
+        self.currentFilter('all');
+        ko.utils.arrayForEach(self.markers(), function(marker) {
+            marker.mapThis();
+        });
+        return self.markers();
+      } else {
+        var str = self.searchFilter();
+        var regExp = new RegExp(str, 'ig');
+        return ko.utils.arrayFilter(self.markers(), function (marker) {
+          if(marker.title.match(regExp)){
+            return true;
+          }
+        });
+      }
+    } else if(self.currentFilter() == 'category'){
+      // Search locations by categoryFilter
+      // Clear out search input
+      self.searchFilter('');
+      if (!self.categoryFilter()) {
+        // Reset Locations
+        self.currentFilter('all');
+
+        return self.markers();
+      } else {
+        console.log('True: self.categoryFilter()');
+        return ko.utils.arrayFilter(self.markers(), function (marker) {
+          return marker.group == self.categoryFilter();
+        });
+      }
+    } else {
+      return self.markers();
+    }
+  }, self);
+
+  self.filter = function (category) {
+    console.log('Running filter');
+    self.setFilter('category');
+    self.categoryFilter(category);
+  };
+
+  // Let the user know how the locations are being filtered.
+  self.filteringBy = ko.computed(function(){
+    var filterLabel = '';
+    if (self.currentFilter() == 'all') {
+      return 'Showing all locations.';
+    } else if (self.currentFilter() == 'search') {
+      filterLabel = 'Title';
+    } else {
+      filterLabel = 'Category';
+    }
+    return 'Filtering by: '+ filterLabel+'.';
+  }, self);
+};
+// Activate view model
+ko.applyBindings(ExtraCreditViewModel());
+
+/* Initializes Google Maps and Creates all the needed markers
+*/
+function initMap() {
+
+  /* Setup Map */
+  window.map = new google.maps.Map(document.getElementById('map'), {
+    // Start from home
+    center: {lat: 40.835105, lng: -73.945388},
+    zoom: 14
+  });
+  tmarker = new google.maps.Marker({
+    position: {lat: Number(40.835105), lng: Number(-73.945388)},
+    map: map,
+    title: 'this.title',
+    // icon: icons[mapIcon].icon
+  });
+
+  console.log(tmarker);
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
+  document.getElementById('legend'));
+
+  // Customize map
+  map.set('styles', styles);
+
+  // Build Map Legend
+  buildMapLegend();
+
+  // Add markers from AJAX calls
+  mapData.afterSchoolProgram();
+  // mapData.theArts();
+  // mapData.nycParks();
+};

@@ -33,6 +33,7 @@
 <!-- STYLES -->
 <link rel="stylesheet" href="/css/styles.css">
 <!-- JS -->
+
 <style type="text/css">
   html, body { height: 100%; margin: 0; padding: 0; z-index: 0;}
   /* MAP -------------------------------------------------------------------- */
@@ -110,13 +111,14 @@
     
       <div id="map"></div>
 <div id="sticky" class="panel">
-
+<div><span data-bind="text: filteringBy"></span></div>
 <input id="pac-input" class="controls" type="text"
-  placeholder="Search Box" data-bind="textInput: searchFilter">
-<button data-bind="click: function() { filter('catgory-1') }">Filter</button>
-<button data-bind="click: filter()">Reset</button>
+  placeholder="Search Box" data-bind="event: { keypress: $root.setFilter('search')}, textInput: searchFilter">
+<button data-bind="click: function() { $root.filter('catgory-1') }">Filter</button>
+<button data-bind="click: function() { $root.filter('') }">Reset</button>
+
   <div id="info-content" class="inner-sticky">
-    <ul data-bind="foreach: searchComputedFilter">
+    <ul data-bind="foreach: $root.searchComputedFilter()">
       <li>
         <div data-bind="text: title"></div>
         <div data-bind="text: locationID"></div>
@@ -141,7 +143,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/js/lib/knockout/knockout.min.js"></script>
 <script src="/js/lib/knockout/knockout.mapping.js"></script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RJOEV24yFEEhDMI3SvYG2Oz_XcdvLWA&callback=initMap">
+</script>
 <script src="/js/main.js"></script>
-
   </body>
 </html>
