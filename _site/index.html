@@ -113,12 +113,12 @@
 <div id="sticky" class="panel">
 <div><span data-bind="text: filteringBy"></span></div>
 <input id="pac-input" class="controls" type="text"
-  placeholder="Search Box" data-bind="event: { keypress: $root.setFilter('search')}, textInput: searchFilter">
+  placeholder="Search Box" data-bind="event: { keypress: setFilter('search')}, textInput: searchFilter">
 <button data-bind="click: function() { $root.filter('catgory-1') }">Filter</button>
 <button data-bind="click: function() { $root.filter('') }">Reset</button>
 
   <div id="info-content" class="inner-sticky">
-    <ul data-bind="foreach: $root.searchComputedFilter()">
+    <ul data-bind="foreach: searchComputedFilter()">
       <li>
         <div data-bind="text: title"></div>
         <div data-bind="text: locationID"></div>
@@ -143,9 +143,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="/js/lib/knockout/knockout.min.js"></script>
 <script src="/js/lib/knockout/knockout.mapping.js"></script>
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RJOEV24yFEEhDMI3SvYG2Oz_XcdvLWA&callback=initMap">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5RJOEV24yFEEhDMI3SvYG2Oz_XcdvLWA">
 </script>
 <script src="/js/main.js"></script>
+
+
   </body>
 </html>

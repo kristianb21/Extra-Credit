@@ -9,12 +9,12 @@ title: >
 <div id="sticky" class="panel">
 <div><span data-bind="text: filteringBy"></span></div>
 <input id="pac-input" class="controls" type="text"
-  placeholder="Search Box" data-bind="event: { keypress: $root.setFilter('search')}, textInput: searchFilter">
+  placeholder="Search Box" data-bind="event: { keypress: setFilter('search')}, textInput: searchFilter">
 <button data-bind="click: function() { $root.filter('catgory-1') }">Filter</button>
 <button data-bind="click: function() { $root.filter('') }">Reset</button>
 
   <div id="info-content" class="inner-sticky">
-    <ul data-bind="foreach: $root.searchComputedFilter()">
+    <ul data-bind="foreach: searchComputedFilter()">
       <li>
         <div data-bind="text: title"></div>
         <div data-bind="text: locationID"></div>

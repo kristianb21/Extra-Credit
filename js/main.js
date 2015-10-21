@@ -1,3 +1,4 @@
+$( document ).ready(function() {
 // This object groups all the AJAX calls or other forms of grabbing data to
 // produce locations.
 var mapData = {};
@@ -114,7 +115,7 @@ var styles = [
 ];
 
 /* An array containing all markers/locations. */
-var markers = [];
+var locations = [];
 
 
 /** Represents a location.
@@ -144,12 +145,13 @@ Location.prototype.createMarker = function(mapIcon){
   this.marker = new google.maps.Marker({
     position: {lat: Number(this.latitude), lng: Number(this.longitude)},
     title: this.title,
+    map: map,
     icon: icons[mapIcon].icon,
     visible: true
   });
-  console.log(this.marker);
+  // console.log(this.marker);
   this.mapThis();
-  markers.push(this);
+  // locations.push(this);
 
 };
 
@@ -157,6 +159,7 @@ Location.prototype.createMarker = function(mapIcon){
  */
 Location.prototype.mapThis = function(){
   console.log('Running mapThis');
+
   this.marker.setMap(map);
 
 };
@@ -169,7 +172,7 @@ Location.prototype.clearMap = function(mapIcon){
 
 };
 
-/* Add event listner on markers on "click"
+/* Add event listner on locations on "click"
  */
 Location.prototype.clickFunc = function(){
 
@@ -180,8 +183,87 @@ Location.prototype.clickFunc = function(){
   });
 };
 
+// Main view model
+var ExtraCreditViewModel = function() {
+  var self = this;
+  // Editable data
+  console.log(locations);
+  self.locations = ko.observableArray(locations);
+
+  self.currentFilter = ko.observableArray();
+  self.searchFilter = ko.observable();
+  self.categoryFilter = ko.observable();
+  self.setFilter = function (filter) {
+    console.log('Running setFilter');
+    self.currentFilter(filter);
+  };
+
+  self.searchComputedFilter = ko.computed(function(){
+    console.log('Running searchComputedFilter');
+    if(self.currentFilter() == 'search'){
+      // Searching locations by title
+      console.log('True: self.currentFilter == \'search\'');
+      if (!self.searchFilter()) {
+        // Reset Locations
+        self.currentFilter('all');
+        ko.utils.arrayForEach(self.locations(), function(marker) {
+            // marker.mapThis();
+        });
+        return self.locations();
+      } else {
+        var str = self.searchFilter();
+        var regExp = new RegExp(str, 'ig');
+        return ko.utils.arrayFilter(self.locations(), function (marker) {
+          if(marker.title.match(regExp)){
+            return true;
+          }
+        });
+      }
+    } else if(self.currentFilter() == 'category'){
+      // Search locations by categoryFilter
+      // Clear out search input
+      self.searchFilter('');
+      if (!self.categoryFilter()) {
+        // Reset Locations
+        self.currentFilter('all');
+
+        return self.locations();
+      } else {
+        console.log('True: self.categoryFilter()');
+        return ko.utils.arrayFilter(self.locations(), function (marker) {
+          return marker.group == self.categoryFilter();
+        });
+      }
+    } else {
+      return self.locations();
+    }
+  }, self);
+
+  self.filter = function (category) {
+    console.log('Running filter');
+    self.setFilter('category');
+    self.categoryFilter(category);
+  };
+
+  // Let the user know how the locations are being filtered.
+  self.filteringBy = ko.computed(function(){
+    var filterLabel = '';
+    if (self.currentFilter() == 'all') {
+      return 'Showing all locations.';
+    } else if (self.currentFilter() == 'search') {
+      filterLabel = 'Title';
+    } else {
+      filterLabel = 'Category';
+    }
+    return 'Filtering by: '+ filterLabel+'.';
+  }, self);
+};
+extraCreditViewModel = new ExtraCreditViewModel();
+// Activate view model
+ko.applyBindings(extraCreditViewModel);
+
 // Construct legend for map
-function buildMapLegend(){
+var buildMapLegend = function(){
   var legend = document.getElementById('legend');
   var iconType;
   var icon;
@@ -194,12 +276,12 @@ function buildMapLegend(){
     div.innerHTML = '<img src="' + icons[item].icon + '"> ' + icons[item].iconType;
     legend.appendChild(div);
   }
-}
+};
 
 /* After School Program Data
  * ref: http://nycdoe.pediacities.com/dataset/after-school-upk-programs/resource/1e042827-d69d-48f0-a2ba-1df13c3c307e
  */
-mapData.afterSchoolProgram = function(){
+afterSchoolProgram = function(){
   var aspData;
   var data = {
     resource_id: '1e042827-d69d-48f0-a2ba-1df13c3c307e' // the resource id to the dataset
@@ -210,6 +292,7 @@ mapData.afterSchoolProgram = function(){
     data: data,
     dataType: 'json',
     success: function(data) {
+      console.log('JSON get afterSchoolProgram success!');
       // Grab records from returned ajax data
       aspData = data.result.records;
       // console.log(aspData);
@@ -218,11 +301,11 @@ mapData.afterSchoolProgram = function(){
       var debug = 3;
       console.log('After School Program Data');
       for (debug; debug >= 0; debug--) {
-        // Construct Markers to be placed on the map.
+        // Construct locations to be placed on the map.
         // Location(title, content, latitude, longitude, group)
-        markers[debug] = new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longitude, 'Education Event');
+        extraCreditViewModel.locations.push( new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longitude, 'Education Event'));
         // console.log(aspData[debug]);
-        // console.log(markers);
+        console.log(locations);
       }
     },
     "error": {
@@ -279,92 +362,12 @@ mapData.nycParks = function(){
   layer.setMap(map);
 };
 
-
-
-// Main view model
-var ExtraCreditViewModel = function() {
-  var self = this;
-  // Editable data
-  console.log(markers);
-  self.markers = ko.observableArray(markers);
-
-  self.currentFilter = ko.observableArray();
-  self.searchFilter = ko.observable();
-  self.categoryFilter = ko.observable();
-  self.setFilter = function (filter) {
-    console.log('Running setFilter');
-    self.currentFilter(filter);
-  };
-
-  self.searchComputedFilter = ko.computed(function(){
-    console.log('Running searchComputedFilter');
-    if(self.currentFilter() == 'search'){
-      // Searching locations by title
-      console.log('True: self.currentFilter == \'search\'');
-      if (!self.searchFilter()) {
-        // Reset Locations
-        self.currentFilter('all');
-        ko.utils.arrayForEach(self.markers(), function(marker) {
-            marker.mapThis();
-        });
-        return self.markers();
-      } else {
-        var str = self.searchFilter();
-        var regExp = new RegExp(str, 'ig');
-        return ko.utils.arrayFilter(self.markers(), function (marker) {
-          if(marker.title.match(regExp)){
-            return true;
-          }
-        });
-      }
-    } else if(self.currentFilter() == 'category'){
-      // Search locations by categoryFilter
-      // Clear out search input
-      self.searchFilter('');
-      if (!self.categoryFilter()) {
-        // Reset Locations
-        self.currentFilter('all');
-
-        return self.markers();
-      } else {
-        console.log('True: self.categoryFilter()');
-        return ko.utils.arrayFilter(self.markers(), function (marker) {
-          return marker.group == self.categoryFilter();
-        });
-      }
-    } else {
-      return self.markers();
-    }
-  }, self);
-
-  self.filter = function (category) {
-    console.log('Running filter');
-    self.setFilter('category');
-    self.categoryFilter(category);
-  };
-
-  // Let the user know how the locations are being filtered.
-  self.filteringBy = ko.computed(function(){
-    var filterLabel = '';
-    if (self.currentFilter() == 'all') {
-      return 'Showing all locations.';
-    } else if (self.currentFilter() == 'search') {
-      filterLabel = 'Title';
-    } else {
-      filterLabel = 'Category';
-    }
-    return 'Filtering by: '+ filterLabel+'.';
-  }, self);
-};
-// Activate view model
-ko.applyBindings(ExtraCreditViewModel());
-
 /* Initializes Google Maps and Creates all the needed markers
 */
-function initMap() {
+window.initMap = function() {
 
   /* Setup Map */
-  window.map = new google.maps.Map(document.getElementById('map'), {
+  this.map = new google.maps.Map(document.getElementById('map'), {
     // Start from home
     center: {lat: 40.835105, lng: -73.945388},
     zoom: 14
@@ -387,7 +390,12 @@ function initMap() {
   buildMapLegend();
 
   // Add markers from AJAX calls
-  mapData.afterSchoolProgram();
+  afterSchoolProgram();
+  console.log(locations);
   // mapData.theArts();
   // mapData.nycParks();
 };
+
+window.initMap();
+
+});
