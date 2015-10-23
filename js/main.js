@@ -142,15 +142,16 @@ Location.prototype.createMarker = function(mapIcon){
   console.log('Running createMarker');
   // console.log(this);
   // console.log(map);
-  this.marker = new google.maps.Marker({
-    position: {lat: Number(this.latitude), lng: Number(this.longitude)},
+  var self = this;
+  self.marker = new google.maps.Marker({
+    position: {lat: Number(self.latitude), lng: Number(self.longitude)},
     title: this.title,
     map: map,
     icon: icons[mapIcon].icon,
     visible: true
   });
   // console.log(this.marker);
-  this.mapThis();
+  self.mapThis();
   // locations.push(this);
 
 };
@@ -158,9 +159,10 @@ Location.prototype.createMarker = function(mapIcon){
 /* This function adds the designated location to the map
  */
 Location.prototype.mapThis = function(){
+  var self = this;
   console.log('Running mapThis');
 
-  this.marker.setMap(map);
+  self.marker.setMap(map);
 
 };
 
@@ -199,6 +201,7 @@ var ExtraCreditViewModel = function() {
   };
 
   self.searchComputedFilter = ko.computed(function(){
+
     console.log('Running searchComputedFilter');
     if(self.currentFilter() == 'search'){
       // Searching locations by title
@@ -206,9 +209,12 @@ var ExtraCreditViewModel = function() {
       if (!self.searchFilter()) {
         // Reset Locations
         self.currentFilter('all');
-        ko.utils.arrayForEach(self.locations(), function(marker) {
-            // marker.mapThis();
-        });
+        var testArray = self.locations();
+          for (var i = 0; i < testArray.length; i++) {
+            testArray[i].mapThis();
+          }
+        // window.initMap();
+        //console.log(testArray);
         return self.locations();
       } else {
         var str = self.searchFilter();
@@ -278,34 +284,90 @@ var buildMapLegend = function(){
   }
 };
 
-/* After School Program Data
- * ref: http://nycdoe.pediacities.com/dataset/after-school-upk-programs/resource/1e042827-d69d-48f0-a2ba-1df13c3c307e
- */
-afterSchoolProgram = function(){
-  var aspData;
-  var data = {
-    resource_id: '1e042827-d69d-48f0-a2ba-1df13c3c307e' // the resource id to the dataset
-  };
+// Foursquare API Categories
+// ref: https://developer.foursquare.com/categorytree
+// Art Art Gallery: 4bf58dd8d48988d1e2931735
+// Historic Site: 4deefb944765f83613cdba6e
+// Museum: 4bf58dd8d48988d181941735
+  // Art Museum: 4bf58dd8d48988d18f941735
+  // History Museum: 4bf58dd8d48988d190941735
+  // Planetarium Museum: 4bf58dd8d48988d192941735
+  // Science Museum: 4bf58dd8d48988d191941735
+  // Dance Studio: 4bf58dd8d48988d134941735
+  // Indie Theater: 4bf58dd8d48988d135941735
+  // Opera House: 4bf58dd8d48988d136941735
+  // Theater: 4bf58dd8d48988d137941735
+  // Public Art: 507c8c4091d498d9fc8c67a9
+  // Outdoor Sculpture: 52e81612bcbc57f1066b79ed
+  // Street Art: 52e81612bcbc57f1066b79ee
+  // Botanical Garden: 52e81612bcbc57f1066b7a22
+  // Bridge: 4bf58dd8d48988d1df941735
+  // Forest: 52e81612bcbc57f1066b7a23
+  // Garden: 4bf58dd8d48988d15a941735
+  // Lake: 4bf58dd8d48988d161941735
+  // Mountain: 4eb1d4d54b900d56c88a45fc
+  // National Park: 52e81612bcbc57f1066b7a21
+  // Nature Preserve: 52e81612bcbc57f1066b7a13
+  // Other Great Outdoors: 4bf58dd8d48988d162941735
+  // River: 4eb1d4dd4b900d56c88a45fd
+  // Scenic Lookout: 4bf58dd8d48988d165941735
+  // Sculpture Garden: 4bf58dd8d48988d166941735
+  // Summer Camp: 52e81612bcbc57f1066b7a10
+  // Trail: 4bf58dd8d48988d159941735
+  // Volcano: 5032848691d4c4b30a586d61
+  // Government Building: 4bf58dd8d48988d126941735
+  // Capitol Building: 4bf58dd8d48988d12a941735
+  // City Hall: 4bf58dd8d48988d129941735
+  // Courthouse: 4bf58dd8d48988d12b941735
+  // Embassy / Consulate: 4bf58dd8d48988d12c951735
+  // Fire Station: 4bf58dd8d48988d12c941735
+  // Monument / Landmark: 4bf58dd8d48988d12d941735
+  // Police Station: 4bf58dd8d48988d12e941735
+  // Town Hall: 52e81612bcbc57f1066b7a38
+  // Library: 4bf58dd8d48988d12f941735
+  // Tourist Information Center: 4f4530164b9074f6e4fb00ff
+// Foursquare API
+  var fourSquareAPI = 'https://api.foursquare.com/v2/venues/search?'+
+  'client_id=XV0OVKSTK15ITPVJOMDIBPZYBYEI5OOKSXD0GTH4JFKIXYWZ'+
+  '&client_secret=GRYWQV4WWFFVJ3VQPJX4TLMBCPXP3BFCPH4IWZGUTM4MCORP'+
+  '&v=20130815'+
+  '&ll=40.835105,-73.945388'+
+  '&radius=800'+
+  '&categoryId=4bf58dd8d48988d12f941735'+
+  '&intent=browse'+
+  '&limit=10';
 
+
+/* FourSquare Locations
+* ref. https://developer.foursquare.com/
+*/
+mapData.fourSquare = function(){
   $.ajax({
-    url: 'http://nycdoe.pediacities.com/api/action/datastore_search',
-    data: data,
+    url: fourSquareAPI,
+    data: '',
     dataType: 'json',
     success: function(data) {
-      console.log('JSON get afterSchoolProgram success!');
-      // Grab records from returned ajax data
-      aspData = data.result.records;
-      // console.log(aspData);
-      // Create a marker for each record
-      var i = aspData.length - 1;
-      var debug = 3;
-      console.log('After School Program Data');
-      for (debug; debug >= 0; debug--) {
-        // Construct locations to be placed on the map.
-        // Location(title, content, latitude, longitude, group)
-        extraCreditViewModel.locations.push( new Location(aspData[debug].NAME, 'testing', aspData[debug].latitude, aspData[debug].longitude, 'Education Event'));
-        // console.log(aspData[debug]);
-        console.log(locations);
+      // data.response.venues;
+
+      var title,
+      content,
+      latitude,
+      longitude,
+      type;
+
+      // console.log('NYC Museum and Galleries');
+      var venuesFound = data.response.venues.length;
+      var i;
+      for (i = venuesFound-1; i >= 0; i--) {
+        // Construct Markers to be placed on the map.
+        // title, content, latitude, longitude, type
+        title = data.response.venues[i].name;
+        content = data.response.venues[i].location.address;
+        latitude = data.response.venues[i].location.latitude;
+        longitude = data.response.venues[i].location.longitude;
+        type = 'library';
+        extraCreditViewModel.locations.push(new Location(title, content, latitude, longitude, type));
+
       }
     },
     "error": {
@@ -315,22 +377,33 @@ afterSchoolProgram = function(){
   });
 };
 
-
 /* NYC Museum and Galleries
 * ref. http://nycdoe.pediacities.com/dataset/museums-and-galleries
 */
 mapData.theArts = function(){
   $.ajax({
     url: '../datasets/museums-and-galleries-results.json',
-    data: data,
+    data: '',
     dataType: 'json',
     success: function(data) {
-      var i = data.length - 1;
+      var i = data.length - 1,
+      title,
+      content,
+      latitude,
+      longitude,
+      type;
       var debug = 3;
       console.log('NYC Museum and Galleries');
+
       for (debug; debug >= 0; debug--) {
         // Construct Markers to be placed on the map.
         // title, content, latitude, longitude, type
+        title = data[debug].name;
+        content = data[debug].streetAddress;
+        latitude = data[debug].latitude;
+        longitude = data[debug].longitude;
+        type = data[debug]['@type'];
+        extraCreditViewModel.locations.push(new Location(title, content, latitude, longitude, type));
         console.log(data[debug]);
         console.log(data[debug]['@type']);
       }
@@ -340,26 +413,6 @@ mapData.theArts = function(){
       "__type": "Authorization Error"
     }
   });
-};
-
-/* NYC Parks
- * ref. http://nycdoe.pediacities.com/dataset/map-of-parks
- */
-mapData.nycParks = function(){
-  var layer = new google.maps.FusionTablesLayer({
-    map: map,
-    heatmap: { enabled: false },
-    query: {
-      select: "col0",
-      from: "1RTCeAf_xUqj_d8dqgvsjYxPBZ7VFVdo2N2av0I6y",
-      where: ""
-    },
-    options: {
-      styleId: 2,
-      templateId: 3
-    }
-  });
-  layer.setMap(map);
 };
 
 /* Initializes Google Maps and Creates all the needed markers
@@ -390,9 +443,9 @@ window.initMap = function() {
   buildMapLegend();
 
   // Add markers from AJAX calls
-  afterSchoolProgram();
-  console.log(locations);
+  mapData.fourSquare();
   // mapData.theArts();
+  console.log(locations);
   // mapData.nycParks();
 };
 

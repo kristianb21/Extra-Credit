@@ -2,12 +2,12 @@
 <html class="no-js" lang="en-US" dir="LTR">
 <head>
 <title>
-  {{ site.title }} | {% if page.title %}{{ page.title }}{% else %}{{ site.subtitle }}{% endif %}
+  Extra Credit - Beyond the Bell
 </title>
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+<meta name="description" content="A single page application designed to mobilize students to explore academic places.">
 
 <!-- Place favicon.ico in the root directory -->
 <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
@@ -23,12 +23,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
+
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <!-- STYLES -->
-<link rel="stylesheet" href="/css/styles.css">
+<!-- <link rel="stylesheet" href="/css/styles.css"> -->
 <!-- JS -->
 
 <style type="text/css">
@@ -57,13 +57,13 @@
   height: 32px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);}
-#pac-input {background-color: #fff;font-family: Roboto;font-size: 15px;font-weight: 300;margin-left: 12px;padding: 0 11px 0 13px;text-overflow: ellipsis;width: 300px;}#pac-input:focus {border-color: #4d90fe;}.pac-container {font-family: Roboto;}
+#pac-input {background-color: #fff;font-family: arial;font-size: 15px;font-weight: 300;margin-left: 12px;padding: 0 11px 0 13px;text-overflow: ellipsis;width: 300px;}#pac-input:focus {border-color: #4d90fe;}.pac-container {font-family: arial;}
 #type-selector {
   color: #fff;
   background-color: #4d90fe;
   padding: 5px 11px 0px 11px;}
 #type-selector label {
-  font-family: Roboto;
+  font-family: arial;
   font-size: 13px;
   font-weight: 300;
 }</style>
@@ -81,7 +81,7 @@
     <ul data-bind="foreach: searchComputedFilter()">
       <li>
         <div data-bind="text: title"></div>
-        <div data-bind="text: locationID"></div>
+        <div data-bind="text: content"></div>
 
       </li>
     </ul>
