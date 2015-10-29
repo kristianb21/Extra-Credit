@@ -134,11 +134,11 @@ var initApp = function() {
   /* Add event listner on locations on "click"
    */
   Location.prototype.clickFunc = function(){
-    var infoPanel = $('#info-panel');
+
     this.marker.addListener('click', function() {
       // TODO
       // Update InfoWindow with this marker's info
-      $('#info-panel').html(this.title);
+      console.log(this);
     });
   };
 
@@ -164,10 +164,8 @@ var initApp = function() {
     self.currentFilter = ko.observable();
     self.searchFilter = ko.observable();
     self.categoryFilter = ko.observable();
-    self.setFilter = function (filter, data) {
-
+    self.setFilter = function (filter) {
       console.log('Running setFilter');
-      console.log(data);
       self.currentFilter(filter);
     };
     self.setMarkers = ko.computed(function(){
@@ -183,39 +181,35 @@ var initApp = function() {
           });
           // Hide the markers by default
           location.marker.setMap(null);
-          // Add event listener, now that marker exist
           location.clickFunc();
         }
 
       });
     }, self);
-    // searchComputedFilter
-    self.searchComputedFilter = function(){
+
+    self.searchComputedFilter = ko.computed(function(){
 
       console.log('Running searchComputedFilter');
-      // SEARCH INPUT ----------------------------------------------------------
       if(self.currentFilter() == 'search'){
         // Searching locations by title
         console.log('True: self.currentFilter == \'search\'');
-        // CHECK if search input is empty, so we may return the all locations
         if (!self.searchFilter()) {
-          // Reset Locations by placing the markers back on the map
+          // Reset Locations
           ko.utils.arrayForEach(self.locations(), function(location) {
             console.log(location);
             location.marker.setMap(map);
           });
           return self.locations();
         } else {
-          // CHECK if search input's string value to return locations which title's match
           var str = self.searchFilter();
           var regExp = new RegExp(str, 'ig');
           return ko.utils.arrayFilter(self.locations(), function (location) {
+
             if(location.marker.title.match(regExp)){
-              // Place marker on map and return it to the list
+
               location.marker.setMap(map);
               return true;
             } else {
-              // Remove location's marker from the map
               location.marker.setMap(null);
             }
           });
@@ -227,6 +221,7 @@ var initApp = function() {
         if (!self.categoryFilter()) {
           // Reset Locations
           self.currentFilter('all');
+
           return self.locations();
         } else {
           console.log('True: self.categoryFilter()');
@@ -237,7 +232,7 @@ var initApp = function() {
       } else {
         return self.locations();
       }
-    };
+    }, self);
 
     self.filter = function (category) {
       console.log('Running filter');
@@ -325,7 +320,7 @@ var initApp = function() {
     '&v=20130815'+
     '&ll=40.835105,-73.945388'+
     '&radius=800'+
-    '&categoryId=4bf58dd8d48988d181941735'+
+    '&categoryId=4bf58dd8d48988d12f941735'+
     '&intent=browse'+
     '&limit=10';
 

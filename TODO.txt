@@ -1,7 +1,1 @@
 TODO:
-
-- Create a function to remove all markers
-- Create a function to remove a single marker
-- Look at KO's data binding
-- Organize code into a prototype similar to the arcade project
-- Create function to add a marker
