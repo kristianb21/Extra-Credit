@@ -1,7 +1,7 @@
 {
-  "name": "asaf",
+  "name": "extra-credit",
   "version": "1.0.0",
-  "description": "After School Activity Finder (ASAF). A single page application to assist with searching for activities for students to do after school.",
+  "description": "A single page application designed to mobilize students to explore academic venues and places of interest.",
   "main": "index.html",
   "dependencies": {
     "del": "^2.0.2",
