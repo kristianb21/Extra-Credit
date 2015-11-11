@@ -8,5 +8,5 @@ CREDITS:
 
 ROAD MAP:
 - Custom markers per category
-- Wikepedi references or text snippets
+- Wikipedia references or text snippets
 - New York Times related articles
