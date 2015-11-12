@@ -11,21 +11,7 @@ var rename = require('gulp-rename');
 var minifyCSS = require('gulp-minify-css');
 var minifyHTML = require('gulp-minify-html');
 var prettify = require('gulp-prettify');
-var del = require('del');
-var htmltojson = require('gulp-html-to-json');
-var template = require('gulp-template-compile');
-var html2string = require('gulp-html2string');
 
-// HTML PATHS
-var htmlBasePath = '_site';
-var htmlPaths = [
-  '_site/*.html',
-  '_site/*/*.html',
-  '_site/*/*/*.html',
-  '_site/*/*/*/*.html'
-];
-
-var htmlDest = '_site/';
 // JS PATHS
 var jsPaths = [
   'js/*.js'
@@ -68,26 +54,6 @@ gulp.task('scripts', function() {
     .pipe(uglify())
     .pipe(gulp.dest(jsDest));
 });
-// Scripts with Dev Options, TODO: Run tasks with flags to
-// combine both task functions.
-// gulp.task('scripts', function() {
-//   return gulp.src(jsPaths)
-//     .pipe(concat('all.js'))
-//     .pipe(gulp.dest(jsDest))
-//     .pipe(rename('all.min.js'))
-//     .pipe(uglify())
-//     .pipe(gulp.dest(jsDest));
-// });
-
-gulp.task('cleanjs', function() {
-  return del(jsFilesToDelete);
-});
-
-// Watch Files For Changes
-gulp.task('watch', function() {
-  // gulp.watch(paths, tasks)
-  gulp.watch('js/*.js', ['lint']);
-});
 
 // Minify HTML -----------------------------------------------------------------
 // requires: 'gulp-minify-html'
@@ -107,16 +73,15 @@ gulp.task('minify-html', function() {
     cdata: true,
     conditionals: true
   };
-  // Paths runs 4 levels deep in the _site directory, add more if needed.
-
-  return gulp.src(htmlPaths)
+  return gulp.src('index.html')
   .pipe(minifyHTML(minifyOptions))
-  .pipe(gulp.dest(htmlDest));
+  .pipe(gulp.dest('app/'));
 });
 
-// Prettify HTML ---------------------------------------------------------------
-// requires: 'gulp-prettify-html'
-/* DEFAULT OPTIONS
+/*
+  Prettify HTML --------------------------------------------------------------
+  requires: 'gulp-prettify-html'
+  DEFAULT OPTIONS
     "indent_size": 4,
     "indent_char": " ",
     "indent_level": 0,
@@ -139,35 +104,9 @@ var prettifyOptions = {
   indent_size: 2
 };
 gulp.task('prettify', function() {
-  gulp.src(htmlPaths)
+  gulp.src(['index.html'])
   .pipe(prettify(prettifyOptions))
   .pipe(gulp.dest(htmlDest));
-});
-
-
-
-gulp.task('site-content', function () {
-    gulp.src(htmlPaths)
-        .pipe(template())
-        .pipe(concat('templates.js'))
-        .pipe(gulp.dest('dist'));
-});
-
-// Converts HTML files to a string as a js object.
-
-
-gulp.task('html2js', function () {
-  return gulp.src(htmlPaths)
-    .pipe(html2string({
-      base: path.join(__dirname, htmlBasePath), //The base path of HTML templates
-      createObj: true, // Indicate wether to define the global object that stores
-                       // the global template strings
-      objName: 'TEMPLATES'  // Name of the global template store variable
-                            //say the converted string for myTemplate.html will be saved to TEMPLATE['myTemplate.html']
-    }))
-    .pipe(rename({extname: '.js'}))
-    // .pipe(concat('all-content.js')) (optional)
-    .pipe(gulp.dest('templates/')); //Output folder
 });
 
 // Default Task
@@ -175,16 +114,4 @@ gulp.task('html2js', function () {
 gulp.task('default', ['lint', 'less']);
 
 // Prepare Output for production -----------------------------------------------
-gulp.task('build', ['minify-html', 'scripts']);
-
-var csv2json = require('gulp-csv2json');
-
-gulp.task('csv-2-json', function () {
-
-var csvParseOptions = {}; //based on options specified here : http://csv.adaltas.com/parse/
-
-    gulp.src('datasets/*.csv')
-        .pipe(csv2json(csvParseOptions))
-        .pipe(rename({extname: '.json'}))
-        .pipe(gulp.dest('datasets'));
-});
+gulp.task('build', ['scripts']);
