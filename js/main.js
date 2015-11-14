@@ -133,7 +133,7 @@ var initApp = function() {
     self.venueID = venueID;
     self.venueIndex = venueIndex;
 
-  };
+  }
 
   // Add "click" behavior to markers
   Location.prototype.clickFunc = function(){
@@ -150,6 +150,7 @@ var initApp = function() {
     if (self.marker.getAnimation() !== null) {
       self.marker.setAnimation(null);
     } else {
+      map.setCenter({lat: self.latitude, lng: self.longitude});
       self.marker.setAnimation(google.maps.Animation.BOUNCE);
       window.setTimeout(function(){
         self.marker.setAnimation(null);
@@ -166,6 +167,7 @@ var initApp = function() {
           infowindow.setContent(content);
           infowindow.open(map, self.marker);
           self.marker.setAnimation(null);
+
         }, 200);
       }, 600);
     }
@@ -191,7 +193,7 @@ var initApp = function() {
     self.setFilter = function (filter, data) {
       self.currentFilter(filter);
     };
-
+    self.results = ko.observable(0);
     self.setMarkers = ko.computed(function(){
       ko.utils.arrayForEach(this.locations(), function(location) {
         // Check if marker already exist so this only runs once.
@@ -216,6 +218,7 @@ var initApp = function() {
     }, self);
     // Filtered Markers
     self.filteredMarkers = function(){
+      var resulted = 0;
       // SEARCH INPUT ----------------------------------------------------------
       if(self.currentFilter() == 'search'){
         // Searching locations by title
@@ -224,16 +227,24 @@ var initApp = function() {
           // Reset Locations by placing the markers back on the map
           ko.utils.arrayForEach(self.locations(), function(location) {
             location.marker.setMap(map);
+
           });
+          resulted = self.locations().length;
+          self.results(resulted);
           return self.locations();
         } else {
           // CHECK if search input's string value to return locations which title's match
           var str = self.searchFilter();
           var regExp = new RegExp(str, 'ig');
+          resulted = 0
+          self.results(resulted);
           return ko.utils.arrayFilter(self.locations(), function (location) {
+
             if(location.marker.title.match(regExp)){
               // Place marker on map and return it to the list
               location.marker.setMap(map);
+              resulted++;
+              self.results(resulted);
               return true;
             } else {
               // Remove location's marker from the map
@@ -243,6 +254,8 @@ var initApp = function() {
         }
       }
     };
+
+
 
     self.filter = function (category) {
       console.log('Running filter');
@@ -254,7 +267,7 @@ var initApp = function() {
       console.log('data', data.marker);
       data.showInfoPanel();
     };
-  };
+  }
   extraCreditViewModel = new ExtraCreditViewModel();
 
   // Construct legend for map
@@ -273,7 +286,6 @@ var initApp = function() {
     }
   };
   buildMapLegend();
-
 
   // FourSquare API Get Venue List
   var fourSqGetVenues = 'https://api.foursquare.com/v2/venues/search?'+
@@ -294,7 +306,7 @@ var initApp = function() {
     '&client_secret=GRYWQV4WWFFVJ3VQPJX4TLMBCPXP3BFCPH4IWZGUTM4MCORP'+
     '&v=20151107'+
     '&limit=1';
-  }
+  };
 
   /* FourSquare Locations
   * ref. https://developer.foursquare.com/
@@ -356,15 +368,22 @@ var initApp = function() {
           console.log(venuePhotoURL);
         }
       },
-      "error": {
+      error: {
         "message": "Access denied",
         "__type": "Authorization Error"
       }
     });
   }
+
   // Add markers from AJAX calls
   fetchData.fourSquare();
   // Activate view model
   ko.applyBindings(extraCreditViewModel);
 
 };
+
+$(document).ready(function () {
+  $('[data-toggle="offcanvas"]').click(function () {
+    $('.row-offcanvas').toggleClass('active')
+  });
+});
