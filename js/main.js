@@ -9,18 +9,27 @@ var initApp = function() {
   var iconBase = '../images/map-icons/';
   var icons = {
       artgallery: {
-        iconType: 'Art Gallery/Museum',
+        iconType: 'Art Gallery',
         icon: iconBase + 'artgallery.png'
+      },
+      museum: {
+        iconType: 'Museum',
+        icon: iconBase + 'museum.png'
+      },
+      monument: {
+        iconType: 'Monument',
+        icon: iconBase + 'monument.png'
       },
       library: {
         iconType: 'Library',
         icon: iconBase + 'library.png'
       },
-      afterSchoolProgram: {
-        iconType: 'Extra Credit',
-        icon: iconBase + 'school.png'
+      university: {
+        iconType: 'College & University',
+        icon: iconBase + 'university.png'
       }
     };
+
   // These styles will change Google Map's default styles
   var styles = [
     {
@@ -121,17 +130,18 @@ var initApp = function() {
   /** This function sets and initializes a location.
    * @constructor
    */
-  function Location (title, content, latitude, longitude, categories, venueID, venueIndex) {
+  function Location (title, content, latitude, longitude, stats, venueID, venueIndex , mapIcon) {
     var self = this;
     self.title = title;
     self.latitude = latitude;
     self.content = content;
     self.longitude = longitude;
-    self.categories = categories;
+    self.stats = stats;
     // Default until an image is found for the venue/location
     self.imgURL = '';
     self.venueID = venueID;
     self.venueIndex = venueIndex;
+    self.mapIcon = mapIcon;
 
   }
 
@@ -145,7 +155,12 @@ var initApp = function() {
 
   Location.prototype.showInfoPanel = function(){
     var self = this,
-        content = '';
+        content = '',
+        address = '';
+
+    if(self.content){
+      address = '<p>'+self.content+'</p>';
+    }
 
     if (self.marker.getAnimation() !== null) {
       self.marker.setAnimation(null);
@@ -157,7 +172,16 @@ var initApp = function() {
 
         window.setTimeout(function(){
           content = '<div class="info-window-content">';
-          content += '<h2>'+self.title+'</h2>';
+          content += '<div class="info-subtitle">Data provided by FourSquare:</div>';
+          content += '<div class="info-title">'+self.title+'</div>';
+          content += '<div class="info-content">';
+          content += address;
+          content += '<p><ul>';
+          content += '<li>Checkins Count: '+self.stats.checkinsCount+'</li>';
+          content += '<li>Tip Count: '+self.stats.tipCount+'</li>';
+          content += '<li>Users Count: '+self.stats.usersCount+'</li>';
+          content += '</ul></p>';
+          content += '</div>';
 
           if(self.imgURL){
             content += '<img src="'+self.imgURL+'" />';
@@ -190,11 +214,14 @@ var initApp = function() {
     self.currentFilter = ko.observable();
     self.searchFilter = ko.observable();
     self.categoryFilter = ko.observable();
+
     self.setFilter = function (filter, data) {
       self.currentFilter(filter);
     };
     self.results = ko.observable(0);
+
     self.setMarkers = ko.computed(function(){
+
       ko.utils.arrayForEach(this.locations(), function(location) {
         // Check if marker already exist so this only runs once.
         if(!location.marker){
@@ -203,16 +230,16 @@ var initApp = function() {
           position: {lat: Number(location.latitude), lng: Number(location.longitude)},
           map: map,
           title: location.title,
-          animation: google.maps.Animation.DROP
-          // icon: icons[mapIcon].icon
+          animation: google.maps.Animation.DROP,
+          icon: icons[location.mapIcon].icon
           });
           // Hide the markers by default
           location.marker.setMap(null);
           // Add event listener, now that marker exist
           location.clickFunc();
           // Get Location Photo
-          // Get Venue Photo
           getVenuePhoto(location.venueIndex, location.venueID);
+
         }
       });
     }, self);
@@ -254,17 +281,11 @@ var initApp = function() {
         }
       }
     };
-
-
-
     self.filter = function (category) {
-      console.log('Running filter');
       self.setFilter('category');
       self.categoryFilter(category);
     };
     self.activateMarker = function (data, event) {
-      console.log('event', event);
-      console.log('data', data.marker);
       data.showInfoPanel();
     };
   }
@@ -286,17 +307,58 @@ var initApp = function() {
     }
   };
   buildMapLegend();
+  /**
+   * FourSquare API
+   * Multiple Request: https://developer.foursquare.com/docs/multi/multi
+   * Venue Search: https://developer.foursquare.com/docs/venues/search
+   */
+  // Declare common variables so we can extend features later and allow flexibility
+  var fsLatLng = '40.835105,-73.945388',
+      fsRadius = '800',
+      fsLimit = '10',
+      fsVersion = '20151107',
+      fsCategories = ['museum', 'university', 'library', 'monument', 'artgallery'];
 
-  // FourSquare API Get Venue List
-  var fourSqGetVenues = 'https://api.foursquare.com/v2/venues/search?'+
-  'client_id=XV0OVKSTK15ITPVJOMDIBPZYBYEI5OOKSXD0GTH4JFKIXYWZ'+
-  '&client_secret=GRYWQV4WWFFVJ3VQPJX4TLMBCPXP3BFCPH4IWZGUTM4MCORP'+
-  '&v=20151107'+
-  '&ll=40.835105,-73.945388'+
-  '&radius=800'+
-  '&categoryId=4bf58dd8d48988d181941735,4bf58dd8d48988d1e2931735'+
-  '&intent=browse'+
-  '&limit=100';
+  var fourSqGetVenues = 'https://api.foursquare.com/v2/multi'+
+    '?client_id=XV0OVKSTK15ITPVJOMDIBPZYBYEI5OOKSXD0GTH4JFKIXYWZ'+
+    '&client_secret=GRYWQV4WWFFVJ3VQPJX4TLMBCPXP3BFCPH4IWZGUTM4MCORP'+
+    '&v='+fsVersion+
+    '&requests='+
+    // [0] Museums
+    encodeURIComponent('/venues/search?v='+fsVersion+'&ll='+
+    encodeURIComponent(fsLatLng)+
+    '&radius='+fsRadius+
+    '&categoryId='+
+    '4bf58dd8d48988d181941735'+
+    '&limit='+fsLimit)+
+    // [1] College & University
+    encodeURIComponent(',/venues/search?v='+fsVersion+'&ll='+
+    encodeURIComponent(fsLatLng)+
+    '&radius='+fsRadius+
+    '&categoryId='+
+    '4d4b7105d754a06372d81259'+
+    '&limit='+fsLimit)+
+    // [2] Library
+    encodeURIComponent(',/venues/search?v='+fsVersion+'&ll='+
+    encodeURIComponent(fsLatLng)+
+    '&radius='+fsRadius+
+    '&categoryId='+
+    '4bf58dd8d48988d12f941735'+
+    '&limit='+fsLimit)+
+    // [3] Monument / Landmark
+    encodeURIComponent(',/venues/search?v='+fsVersion+'&ll='+
+    encodeURIComponent(fsLatLng)+
+    '&radius='+fsRadius+
+    '&categoryId='+
+    '4bf58dd8d48988d12d941735'+
+    '&limit='+fsLimit)+
+    // [4] Art Gallery
+    encodeURIComponent(',/venues/search?v='+fsVersion+'&ll='+
+    encodeURIComponent(fsLatLng)+
+    '&radius='+fsRadius+
+    '&categoryId='+
+    '4bf58dd8d48988d1e2931735'+
+    '&limit='+fsLimit);
 
   // FourSquare API Get Venu Images
   // https://api.foursquare.com/v2/venues/[venue-id]/photos?client_id=XV0OVKSTK15ITPVJOMDIBPZYBYEI5OOKSXD0GTH4JFKIXYWZ&v=20151107
@@ -309,45 +371,54 @@ var initApp = function() {
   };
 
   /* FourSquare Locations
-  * ref. https://developer.foursquare.com/
-  */
+   * ref. https://developer.foursquare.com/
+   */
   fetchData.fourSquare = function(map){
     $.ajax({
       url: fourSqGetVenues,
       data: '',
       dataType: 'json',
       success: function(data) {
+        console.log(data);
         var venueID,
             venueIndex,
             title,
             content,
-            venuePhotoSuffix,
-            venuePhotoPrefix,
-            venuePhotoURL,
             latitude,
             longitude,
-            categories;
+            stats,
+            mapIcon,
+            item,
+            responses = data.response.responses.length,
+            venueIndex = 0;
 
-        var venuesFound = data.response.venues.length;
-        var i;
-        for (i = 0; i < venuesFound; i++) {
-          //console.log(data);
-          // Construct Markers to be placed on the map.
-          // title, content, latitude, longitude, type
-          venueIndex = i;
-          venueID = data.response.venues[i].id;
-          title = data.response.venues[i].name;
-          content = data.response.venues[i].location.address;
-          latitude = data.response.venues[i].location.lat;
-          longitude = data.response.venues[i].location.lng;
-          categories = data.response.venues[i].categories;
+        for (response = 0; response < responses; response++) {
+          venuesFound = data.response.responses[response].response.venues.length;
 
-          extraCreditViewModel.locations.push(new Location(title, content, latitude, longitude, categories, venueID, venueIndex));
+          for (item = 0; item < venuesFound; item++) {
+            //console.log(data);
+            // Construct Markers to be placed on the map.
+            // title, content, latitude, longitude, type
+            venueID   = data.response.responses[response].response.venues[item].id;
+            title     = data.response.responses[response].response.venues[item].name;
+            content   = data.response.responses[response].response.venues[item].location.address;
+            latitude  = data.response.responses[response].response.venues[item].location.lat;
+            longitude = data.response.responses[response].response.venues[item].location.lng;
+            stats = data.response.responses[response].response.venues[item].stats;
+            mapIcon = fsCategories[response];
+            extraCreditViewModel.locations.push(
+              new Location(title, content, latitude, longitude, stats, venueID, venueIndex, mapIcon)
+            );
+            venueIndex++;
+          }
         }
       },
-      "error": {
-        "message": "Access denied",
-        "__type": "Authorization Error"
+      error: function(jqXHR, status, statusText){
+        // console.log(jqXHR);
+        // console.log(status);
+        // console.log(statusText);
+      },
+      complete: function(jqXHR, textStatus){
       }
     });
   };
@@ -358,19 +429,24 @@ var initApp = function() {
       data: '',
       dataType: 'json',
       success: function(data) {
+        var venuePhotoSuffix,
+            venuePhotoPrefix,
+            venuePhotoURL;
+
         if(data.response.photos.items.length){
           venuePhotoPrefix = data.response.photos.items[0].prefix;
           venuePhotoSuffix = data.response.photos.items[0].suffix;
           venuePhotoURL = venuePhotoPrefix + '200x200' + venuePhotoSuffix;
-          console.log(venueIndex);
-          console.log(extraCreditViewModel.locations());
+          // console.log(venueIndex);
+          // console.log(extraCreditViewModel.locations());
           extraCreditViewModel.locations()[venueIndex].imgURL = venuePhotoURL;
-          console.log(venuePhotoURL);
+          // console.log(venuePhotoURL);
         }
       },
-      error: {
-        "message": "Access denied",
-        "__type": "Authorization Error"
+      error: function(jqXHR, status, statusText){
+        // console.log(jqXHR);
+        // console.log(status);
+        // console.log(statusText);
       }
     });
   }
@@ -382,6 +458,7 @@ var initApp = function() {
 
 };
 
+// Toggle search result list on mobile
 $(document).ready(function () {
   $('[data-toggle="offcanvas"]').click(function () {
     $('.row-offcanvas').toggleClass('active')

@@ -30,8 +30,19 @@ html, body {
   height: 300px;
   overflow: overlay;
 }
+.list-group-item {
+  cursor: pointer;
+}
+/* INFO WINDOW -------------------------------------------------------------- */
 .info-window-content {
+  max-width: 320px;
   color: #333;
+}
+.info-title {
+  font-size: 1.4em;
+}
+.info-subtitle {
+  color: #A5A9B2;
 }
 .info-window-content img {
   text-align: center;
