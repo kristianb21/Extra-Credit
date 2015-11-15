@@ -263,7 +263,7 @@ var initApp = function() {
           // CHECK if search input's string value to return locations which title's match
           var str = self.searchFilter();
           var regExp = new RegExp(str, 'ig');
-          resulted = 0
+          resulted = 0;
           self.results(resulted);
           return ko.utils.arrayFilter(self.locations(), function (location) {
 
@@ -381,7 +381,6 @@ var initApp = function() {
       success: function(data) {
         console.log(data);
         var venueID,
-            venueIndex,
             title,
             content,
             latitude,
@@ -461,6 +460,6 @@ var initApp = function() {
 // Toggle search result list on mobile
 $(document).ready(function () {
   $('[data-toggle="offcanvas"]').click(function () {
-    $('.row-offcanvas').toggleClass('active')
+    $('.row-offcanvas').toggleClass('active');
   });
 });
