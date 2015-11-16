@@ -14,11 +14,11 @@ var prettify = require('gulp-prettify');
 
 // JS PATHS
 var jsPaths = [
-  'js/*.js'
+  'source/js/*.js'
 ];
 
 // JS DESTINATION
-var jsDest = 'js/';
+var jsDest = 'dist/js/';
 
 // Lint Task
 gulp.task('lint', function() {
@@ -39,10 +39,18 @@ gulp.task('less', function () {
   .pipe(gulp.dest('css'));
 });
 
+// Minify CSS for Production
+gulp.task('css', function () {
+  return gulp.src('source/css/styles.css')
+  .pipe(minifyCSS())
+  .pipe(rename('styles.min.css'))
+  .pipe(gulp.dest('dist/css'));
+});
+
 // Watch Files For Changes
 gulp.task('watch', function() {
-  gulp.watch('js/*.js', ['lint', 'scripts']);
-  gulp.watch('less/**/*.less', ['less']);
+  gulp.watch('source/js/*.js', ['lint', 'scripts']);
+  gulp.watch('source/less/**/*.less', ['less']);
 });
 
 
@@ -52,7 +60,7 @@ gulp.task('scripts', function() {
   return gulp.src(jsPaths)
     .pipe(concat('all.min.js'))
     .pipe(uglify())
-    .pipe(gulp.dest(jsDest));
+    .pipe(gulp.dest('dist/js'));
 });
 
 // Minify HTML -----------------------------------------------------------------
@@ -111,7 +119,7 @@ gulp.task('prettify', function() {
 
 // Default Task
 // Runs with "gulp" by itself --------------------------------------------------
-gulp.task('default', ['lint', 'less']);
+gulp.task('default', ['lint', 'scripts', 'css']);
 
 // Prepare Output for production -----------------------------------------------
-gulp.task('build', ['scripts']);
+gulp.task('build', ['scripts', 'css']);
