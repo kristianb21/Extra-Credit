@@ -13,7 +13,6 @@ body {
 
 .legend-container {
   padding: 10px;
-  overflow: overlay;
 }
 
 /* LOCATION LIST PANEL ------------------------------------------------------ */
@@ -136,6 +135,11 @@ input:focus {
     top: 0;
   }
 
+  .legend-container {
+    overflow: scroll;
+    max-height: 150px;
+  }
+
   .row-offcanvas {
     position: relative;
     -webkit-transition: all .25s ease-out;
@@ -145,16 +149,17 @@ input:focus {
 
   .sidebar-content {
     left: -100%;
+    top: 110px;
      -webkit-transition: all .25s ease-out;
-     -o-transition: all .25s ease-out;
-        transition: all .25s ease-out;
+          -o-transition: all .25s ease-out;
+             transition: all .25s ease-out;
   }
 
   .active > .sidebar-offcanvas > .sidebar-content {
     left: 0;
      -webkit-transition: all .25s ease-out;
-         -o-transition: all .25s ease-out;
-            transition: all .25s ease-out;
+          -o-transition: all .25s ease-out;
+             transition: all .25s ease-out;
   }
 
   .row-offcanvas-right {
