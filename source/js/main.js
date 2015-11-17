@@ -194,7 +194,7 @@ var initApp = function() {
             content += '<ul>';
             for (var i = 0; i < self.nyTimesContent.length; i++) {
               content += self.nyTimesContent[i];
-            };
+            }
             content += '</ul>';
           }
 
@@ -227,7 +227,7 @@ var initApp = function() {
           headline = items[i].headline.main;
           url = items[i].headline.web_url;
           self.nyTimesContent.push('<li><a href="'+url+'">'+headline+'</a></li>');
-        };
+        }
       })
       .fail(function(){
         console.log('Error Loading Data.');
