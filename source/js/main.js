@@ -142,7 +142,7 @@ var initApp = function() {
     self.venueID = venueID;
     self.venueIndex = venueIndex;
     self.mapIcon = mapIcon;
-
+    self.nyTimesContent = [];
   }
 
   // Add "click" behavior to markers
@@ -161,6 +161,8 @@ var initApp = function() {
     if(self.content){
       address = '<p>'+self.content+'</p>';
     }
+
+    self.getNyTimesContent();
 
     if (self.marker.getAnimation() !== null) {
       self.marker.setAnimation(null);
@@ -187,6 +189,15 @@ var initApp = function() {
             content += '<img src="'+self.imgURL+'" />';
           }
 
+          if(self.nyTimesContent.length){
+            content += '<p><strong>Related NY Times articles:</strong></p>';
+            content += '<ul>';
+            for (var i = 0; i < self.nyTimesContent.length; i++) {
+              content += self.nyTimesContent[i];
+            };
+            content += '</ul>';
+          }
+
           content += '</div>';
           infowindow.setContent(content);
           infowindow.open(map, self.marker);
@@ -194,6 +205,33 @@ var initApp = function() {
 
         }, 200);
       }, 600);
+    }
+  };
+
+  Location.prototype.getNyTimesContent = function(){
+    var self = this;
+    if(self.nyTimesContent.length === 0){
+      var qSearch,
+        nytimesRequest = '',
+        fsLocations = extraCreditViewModel.locations().length;
+
+      qSearch = self.title.split(' ');
+      qSearch = qSearch.join('+');
+      nytimesRequest = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q='+qSearch+'&api-key=3c80cecb1ded0836cbeb8a6deec40219:6:60237029&outputFormat=text/javascript';
+      $.getJSON( nytimesRequest, function( data ) {
+        // console.log(data);
+        var items = data.response.docs,
+            headline,
+            url;
+        for (var i = items.length -1; i > 0; i--) {
+          headline = items[i].headline.main;
+          url = items[i].headline.web_url;
+          self.nyTimesContent.push('<li><a href="'+url+'">'+headline+'</a></li>');
+        };
+      })
+      .fail(function(){
+        console.log('Error Loading Data.');
+      });
     }
   };
 
@@ -379,7 +417,7 @@ var initApp = function() {
       data: '',
       dataType: 'json',
       success: function(data) {
-        console.log(data);
+        //console.log(data);
         var venueID,
             title,
             content,
@@ -418,9 +456,11 @@ var initApp = function() {
         // console.log(statusText);
       },
       complete: function(jqXHR, textStatus){
+
       }
     });
   };
+
 
   function getVenuePhoto(venueIndex, venueID){
     $.ajax({
@@ -449,6 +489,8 @@ var initApp = function() {
       }
     });
   }
+
+
 
   // Add markers from AJAX calls
   fetchData.fourSquare();
