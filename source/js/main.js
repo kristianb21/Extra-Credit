@@ -142,6 +142,7 @@ var initApp = function() {
     self.venueID = venueID;
     self.venueIndex = venueIndex;
     self.mapIcon = mapIcon;
+    self.category = icons[mapIcon].iconType;
     self.nyTimesContent = [];
   }
 
@@ -306,8 +307,8 @@ var initApp = function() {
           resulted = 0;
           self.results(resulted);
           return ko.utils.arrayFilter(self.locations(), function (location) {
-
-            if(location.marker.title.match(regExp)){
+            // Search by title and category
+            if(location.marker.title.match(regExp) || location.category.match(regExp)){
               // Place marker on map and return it to the list
               location.marker.setMap(map);
               resulted++;
