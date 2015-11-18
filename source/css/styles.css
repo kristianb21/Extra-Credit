@@ -61,8 +61,8 @@ body {
 .search-panel {
   position: fixed;
   width: 320px;
-  z-index: 1;
-  top: 100px;
+  z-index: 2;
+  top: 80px;
 }
 
 .search-panel-container {
@@ -92,10 +92,10 @@ input:focus {
 }
 
 .search-description {
-  width: 320px;
   font-weight: 100;
   letter-spacing: 0.1em;
-  margin: 0 15px 18px;
+  margin: 5px 5px 10px;
+  padding: 4px;
   font-size: 0.90em;
 }
 
@@ -150,7 +150,7 @@ input:focus {
 
   .sidebar-content {
     left: -100%;
-    top: 110px;
+    top: 120px;
      -webkit-transition: all .25s ease-out;
           -o-transition: all .25s ease-out;
              transition: all .25s ease-out;
