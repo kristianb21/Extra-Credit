@@ -221,9 +221,10 @@ var initApp = function() {
       $.getJSON( nytimesRequest, function( data ) {
         // console.log(data);
         var items = data.response.docs,
+            totalItems = items.length,
             headline,
             url;
-        for (var i = items.length -1; i > 0; i--) {
+        for (var i = totalItems -1; i > 0; i--) {
           headline = items[i].headline.main;
           url = items[i].headline.web_url;
           self.nyTimesContent.push('<li><a href="'+url+'">'+headline+'</a></li>');
@@ -231,6 +232,7 @@ var initApp = function() {
       })
       .fail(function(){
         console.log('Error Loading Data.');
+        showApiError();
       });
     }
   };
@@ -331,10 +333,10 @@ var initApp = function() {
 
   // Construct legend for map
   var buildMapLegend = function(){
-    var legend = document.getElementById('legend');
-    var iconType;
-    var icon;
-    var div;
+    var legend = document.getElementById('legend'),
+        iconType,
+        icon,
+        div;
 
     for (var item in icons) {
       iconType = item.iconType;
