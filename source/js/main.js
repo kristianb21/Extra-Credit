@@ -454,6 +454,7 @@ var initApp = function() {
         // console.log(jqXHR);
         // console.log(status);
         // console.log(statusText);
+        showApiError();
       },
       complete: function(jqXHR, textStatus){
 
@@ -486,6 +487,7 @@ var initApp = function() {
         // console.log(jqXHR);
         // console.log(status);
         // console.log(statusText);
+        showApiError();
       }
     });
   }
@@ -505,3 +507,10 @@ $(document).ready(function () {
     $('.row-offcanvas').toggleClass('active');
   });
 });
+
+// Handling for failed APIs
+function showApiError(){
+  $(document).ready(function(){
+    $("#api-error").modal('show');
+  });
+}

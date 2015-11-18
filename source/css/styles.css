@@ -123,10 +123,11 @@ input:focus {
   display: none;
 }
 
-/*
- * Off Canvas
- * --------------------------------------------------
- */
+.modal-dialog {
+  color: #333;
+}
+
+/* OFF CANVAS --------------------------------------------------------------- */
 @media screen and (max-width: 767px) {
 
   .search-panel {
